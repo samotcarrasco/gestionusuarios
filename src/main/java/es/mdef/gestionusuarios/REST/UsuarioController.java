@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
+import es.mdef.gestionusuarios.entidades.Administrador;
+import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Usuario;
+import es.mdef.gestionusuarios.entidades.Usuario.Rol;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
 
 @RestController
@@ -44,9 +47,22 @@ public class UsuarioController {
 	
 	@PutMapping("{id}")
 	public EntityModel<Usuario> edit(@PathVariable int id, @RequestBody UsuarioModel model) {
+		
 		Usuario Usuario = repositorio.findById(id).map(usu -> {
 			usu.setNombre(model.getNombre());
 			usu.setNombreUsuario(model.getNombreUsuario());
+			usu.setPassword(model.getNombre());
+
+			if (usu.getRol() == Rol.Administrator) {
+				Administrador admin = (Administrador) usu;
+				admin.setTelefono(model.getTelefono());
+			} else if (usu.getRol() == Rol.noAdministrator) {
+				NoAdministrador noAdmin = (NoAdministrador) usu;
+				noAdmin.setDpto(model.getDpto());
+				noAdmin.setTipo(model.getTipo());
+			}
+
+			//usu.setRol(model.getRol());
 			return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));

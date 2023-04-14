@@ -8,17 +8,16 @@ import jakarta.persistence.DiscriminatorValue;
 @DiscriminatorValue("A")
 public class Administrador extends Usuario {
 	
-	
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	@JsonIgnore
 	private String telefono;
 	
 	public String getTelefono() {
 		return telefono;
 	}
-	public void setTipo(String tlf) {
+	public void setTelefono(String tlf) {
 		this.telefono = tlf;
+	}
+	public Rol getRol() {
+		return Rol.Administrator;
 	}
 	
 	@Override

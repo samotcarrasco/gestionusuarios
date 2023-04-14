@@ -11,22 +11,19 @@ public class NoAdministrador extends Usuario {
 		EMIES,
 	    CCESP	
 	}
-	
 	public static enum Tipo {
 		alumno,
 	    docente,
 	    adminsitracion
 	}
 	
-	
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-//	@JsonIgnore
 	private Tipo tipo;
 	private Dpto dpto;
+	
 	public Tipo getTipo() {
 		return tipo;
 	}
+	
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
@@ -35,6 +32,10 @@ public class NoAdministrador extends Usuario {
 	}
 	public void setDpto(Dpto dpto) {
 		this.dpto = dpto;
+	}
+	
+	public Rol getRol() {
+		return Rol.noAdministrator;
 	}
 	@Override
 	public String toString() {
