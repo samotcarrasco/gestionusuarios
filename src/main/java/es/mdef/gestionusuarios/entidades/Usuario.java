@@ -28,16 +28,19 @@ public class Usuario {
 	}
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String nombre;
 	private String nombreUsuario;
 	private String password;
 	
-	public int getId() {
+	@OneToMany(mappedBy = "usuario")
+	List<Pregunta> preguntas;
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -64,6 +67,7 @@ public class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public Rol getRol() {
 		return null;//rol;
 	}

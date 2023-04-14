@@ -38,7 +38,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("{id}")
-	public EntityModel<Usuario> one(@PathVariable int id) {
+	public EntityModel<Usuario> one(@PathVariable Long id) {
 		Usuario usuario = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		log.info("Recuperado " + usuario);
@@ -46,7 +46,7 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}")
-	public EntityModel<Usuario> edit(@PathVariable int id, @RequestBody UsuarioModel model) {
+	public EntityModel<Usuario> edit(@PathVariable Long id, @RequestBody UsuarioModel model) {
 		
 		Usuario Usuario = repositorio.findById(id).map(usu -> {
 			usu.setNombre(model.getNombre());
@@ -71,7 +71,7 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void delete(@PathVariable int id) {
+	public void delete(@PathVariable Long id) {
 		log.info("Borrado Usuario " + id);
 		repositorio.deleteById(id);
 	}

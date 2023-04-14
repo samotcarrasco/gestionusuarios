@@ -3,7 +3,8 @@ package es.mdef.gestionusuarios.REST;
 public class RegisterNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	RegisterNotFoundException(Integer id, String tipo) {
+	RegisterNotFoundException(Long id, String tipo) {
 		super("No se ha encontrado el " + tipo + " " + id);
 	}
+
 }
