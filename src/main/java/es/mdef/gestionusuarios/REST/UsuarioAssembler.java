@@ -12,14 +12,14 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Component
-//public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, EntityModel<Usuario>>{
 public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, EntityModel<Usuario>>{
 	
 	@Override
 	public EntityModel<Usuario> toModel(Usuario entity) {
 		EntityModel<Usuario> model = EntityModel.of(entity);
 		model.add(
-				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel()
+				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel(),
+		     	linkTo(methodOn(UsuarioController.class).preguntasDeUsuario(entity.getId())).withRel("preguntas")
 				);
 		return model;
 	}
@@ -38,7 +38,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 			noAdmin.setTipo(model.getTipo());
 			noAdmin.setDpto(model.getDpto());
 			usuario = noAdmin;
-			break;
+			break;				
 		default:
 			usuario = new Usuario();
 		}

@@ -5,7 +5,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mdef.gestionusuarios.entidades.Usuario;
 
-@Relation(itemRelation="pedido")
+@Relation(itemRelation="pregunta")
 public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 
 	private String enunciado;

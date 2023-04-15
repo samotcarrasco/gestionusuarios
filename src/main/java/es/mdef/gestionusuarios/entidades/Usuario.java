@@ -1,6 +1,7 @@
 package es.mdef.gestionusuarios.entidades;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.DiscriminatorColumn;
@@ -31,6 +32,7 @@ public class Usuario {
 	private Long id;
 	private String nombre;
 	private String nombreUsuario;
+	@JsonIgnore
 	private String password;
 	
 	@OneToMany(mappedBy = "usuario")
@@ -75,12 +77,20 @@ public class Usuario {
 //	public void setRol(Rol rol) {
 //		this.rol = rol;
 //	}
+	
+	
+	public List<Pregunta> getPreguntas() {
+		return preguntas;
+	}
 
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
+	
 	@Override
 	public String toString() {
 		return "USUARIO (DESDE clase usuario) [Nombre=" + nombre + ", NombreUSER=" + nombreUsuario + "   ID " + id + "]";
 	}
-	
-	
+
 	
 }

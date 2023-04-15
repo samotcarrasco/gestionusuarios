@@ -11,7 +11,6 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 @Relation(itemRelation="usuario")
 public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 
-	private int id;
 	private String nombre;
 	private String nombreUsuario;
 	private String password;
@@ -76,8 +75,6 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 	public Dpto getDpto() {
 		return dpto;
 	}
-
-
 
 
 	@Override

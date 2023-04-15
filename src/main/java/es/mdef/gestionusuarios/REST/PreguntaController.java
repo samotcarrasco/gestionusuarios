@@ -69,6 +69,7 @@ public class PreguntaController {
 		log.info("Añadido " + pregunta);
 		return prAssembler.toModel(pregunta);
 	}
+
 	
 	@PutMapping("{id}")
 	public EntityModel<Pregunta> edit(@PathVariable Long id, @RequestBody PreguntaModel model) {

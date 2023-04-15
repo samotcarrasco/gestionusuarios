@@ -15,16 +15,15 @@ public class PreguntaAssembler implements RepresentationModelAssembler<Pregunta,
 	@Override
 	public EntityModel<Pregunta> toModel(Pregunta entity) {
 		EntityModel<Pregunta> model = EntityModel.of(entity);
-		model.add(
-				linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel(),
-				linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario")
-				);
-		return model;
+		  model.add(linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel());
+	      model.add(linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario"));
+	   return model;
 	}
 	
 	public Pregunta toEntity(PreguntaModel model) {
 		Pregunta pregunta = new Pregunta();
 		pregunta.setEnunciado(model.getEnunciado());
+		pregunta.setUsuario(model.getUsuario());
 		return pregunta;
 	}
 }

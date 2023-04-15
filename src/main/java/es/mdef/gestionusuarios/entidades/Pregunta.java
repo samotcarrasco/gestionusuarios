@@ -18,8 +18,8 @@ public class Pregunta {
 	private Long id;
 	private String enunciado;
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="USUARIO_ID")
-	private Usuario usuario;
+	@JoinColumn(name="usuarioId")
+	private Usuario usuario;	
 	
 	public Long getId() {
 		return id;
@@ -42,7 +42,7 @@ public class Pregunta {
 	}
 	@Override
 	public String toString() {
-		return "Pregunta [id=" + id + ", enunciado=" + enunciado + ", estado=" +  ", usuario=" + usuario +"]";
+		return "Pregunta [id=" + id + ", enunciado=" + enunciado + ", usuario=" + usuario+ "]";
 	}
 	
 	

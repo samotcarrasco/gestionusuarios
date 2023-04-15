@@ -19,7 +19,7 @@ public class UsuarioListaAssembler implements RepresentationModelAssembler<Usuar
 	public UsuarioListaModel toModel(Usuario entity) {
 		UsuarioListaModel model = new UsuarioListaModel();
 		model.setNombre(entity.getNombre());
-		model.setNombreUsuario(entity.getNombreUsuario());
+		model.setRol(entity.getRol());
 		model.add(
 				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel()
 				);

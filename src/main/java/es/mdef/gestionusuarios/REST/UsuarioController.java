@@ -1,5 +1,7 @@
 package es.mdef.gestionusuarios.REST;
 
+import java.util.List;
+
 //import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
@@ -27,13 +29,15 @@ public class UsuarioController {
 	private final UsuarioRepositorio repositorio;
 	private final UsuarioAssembler assembler;
 	private final UsuarioListaAssembler listaAssembler;
+	private final PreguntaListaAssembler prListaAssembler;
 	private final Logger log;
 	
 	UsuarioController(UsuarioRepositorio repositorio, UsuarioAssembler assembler, 
-			UsuarioListaAssembler listaAssembler) {
+			UsuarioListaAssembler listaAssembler, PreguntaListaAssembler prListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
+		this.prListaAssembler = prListaAssembler;
 		log = GestionUsuariosApplication.log;
 	}
 	
@@ -45,13 +49,20 @@ public class UsuarioController {
 		return assembler.toModel(usuario);
 	}
 	
+	@GetMapping("{id}/preguntas")
+	public CollectionModel<PreguntaListaModel> preguntasDeUsuario(@PathVariable Long id) {
+		Usuario usuario = repositorio.findById(id)
+				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+	    return prListaAssembler.toCollection(usuario.getPreguntas());
+	}
+	
 	@PutMapping("{id}")
 	public EntityModel<Usuario> edit(@PathVariable Long id, @RequestBody UsuarioModel model) {
 		
-		Usuario Usuario = repositorio.findById(id).map(usu -> {
+		Usuario usuario = repositorio.findById(id).map(usu -> {
 			usu.setNombre(model.getNombre());
 			usu.setNombreUsuario(model.getNombreUsuario());
-			usu.setPassword(model.getNombre());
+			usu.setPassword(model.getPassword());
 
 			if (usu.getRol() == Rol.Administrator) {
 				Administrador admin = (Administrador) usu;
@@ -66,16 +77,20 @@ public class UsuarioController {
 			return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
-		log.info("Actualizado " + Usuario);
-		return assembler.toModel(Usuario);
+		log.info("Actualizado " + usuario);
+		return assembler.toModel(usuario);
 	}
 	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
-		log.info("Borrado Usuario " + id);
-		repositorio.deleteById(id);
+	    log.info("Borrado Usuario " + id);
+//	    if (repositorio.existsById(id)) {
+	        repositorio.deleteById(id);
+//	    } else {
+//	        throw new RegisterNotFoundException(id, "usuario");
+//	    }
 	}
-
+	
 	
 	@GetMapping
 	public CollectionModel<UsuarioListaModel> all() {

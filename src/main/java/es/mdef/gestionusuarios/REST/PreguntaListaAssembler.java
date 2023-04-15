@@ -22,6 +22,7 @@ public class PreguntaListaAssembler implements RepresentationModelAssembler<Preg
 		model.setEnunciado(entity.getEnunciado());
 		model.add(
 				linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel()
+				//linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario")
 				);
 		return model;
 	}
