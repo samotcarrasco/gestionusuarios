@@ -10,31 +10,31 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import es.mdef.gestionusuarios.entidades.Pregunta;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.Usuario;
 
+@Component
+public class FamiliaListaAssembler implements RepresentationModelAssembler<FamiliaImpl, FamiliaListaModel>{
 
-//@Component
-//public class FamiliaListaAssembler implements RepresentationModelAssembler<Pregunta, PreguntaListaModel>{
-//
-//	@Override
-//	public PreguntaListaModel toModel(Pregunta entity) {
-//		PreguntaListaModel model = new PreguntaListaModel();
-//		model.setEnunciado(entity.getEnunciado());
-//		model.add(
-//				linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel()
-//				//linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario")
-//				);
-//		return model;
-//	}
-//	
-//	public CollectionModel<PreguntaListaModel> toCollection(List<Pregunta> lista) {
-//		CollectionModel<PreguntaListaModel> collection = CollectionModel.of(
-//				lista.stream().map(this::toModel).collect(Collectors.toList())
-//				);
-//		collection.add(
-//				linkTo(methodOn(PreguntaController.class).all()).withRel("preguntas")
-//				);
-//		return collection;
-//	}
-//
-//}
+	@Override
+	public FamiliaListaModel toModel(FamiliaImpl entity) {
+		FamiliaListaModel model = new FamiliaListaModel();
+		model.setEnunciado(entity.getEnunciado());
+		model.setTamanio(entity.getTamanio());
+		model.add(
+				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel()
+				);
+		return model;
+	}
+	
+	public CollectionModel<FamiliaListaModel> toCollection(List<FamiliaImpl> lista) {
+		CollectionModel<FamiliaListaModel> collection = CollectionModel.of(
+				lista.stream().map(this::toModel).collect(Collectors.toList())
+				);
+		collection.add(
+				linkTo(methodOn(UsuarioController.class).all()).withRel("familias")
+				);
+		return collection;
+	}
+
+}

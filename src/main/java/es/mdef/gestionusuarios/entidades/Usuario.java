@@ -1,4 +1,5 @@
 package es.mdef.gestionusuarios.entidades;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,6 +33,7 @@ public class Usuario {
 	private Long id;
 	private String nombre;
 	private String nombreUsuario;
+	private Rol rol;
 	@JsonIgnore
 	private String password;
 	
@@ -71,20 +73,31 @@ public class Usuario {
 	}
 	
 	public Rol getRol() {
-		return null;//rol;
+		return rol;
 	}
 
-//	public void setRol(Rol rol) {
-//		this.rol = rol;
-//	}
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
 	
 	
 	public List<Pregunta> getPreguntas() {
 		return preguntas;
 	}
 
-	public void setPreguntas(List<Pregunta> preguntas) {
-		this.preguntas = preguntas;
+//	public void setPreguntas(List<Pregunta> preguntas) {
+//		this.preguntas = preguntas;
+//	}
+	
+	public List <FamiliaImpl> getFamilias() {
+		 List<FamiliaImpl> familias = new ArrayList<>();
+
+	    for (Pregunta pregunta : this.preguntas) {
+	        FamiliaImpl familia = pregunta.getFamilia();
+	        	familias.add(familia);
+	    }
+	    
+	    return familias;
 	}
 	
 	@Override

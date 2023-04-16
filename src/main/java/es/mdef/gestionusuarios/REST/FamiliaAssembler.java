@@ -8,23 +8,28 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mdef.gestionusuarios.entidades.Familia;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.entidades.Pregunta;
-//
-//@Component
-//public class FamiliaAssembler implements RepresentationModelAssembler<Pregunta, EntityModel<Pregunta>>{
-//	
-//	@Override
-//	public EntityModel<Familia> toModel(Pregunta entity) {
-//		EntityModel<Pregunta> model = EntityModel.of(entity);
-//		  model.add(linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel());
-//	      model.add(linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario"));
-//	   return model;
-//	}
-//	
-//	public Pregunta toEntity(PreguntaModel model) {
-//		Pregunta pregunta = new Pregunta();
-//		pregunta.setEnunciado(model.getEnunciado());
-//		pregunta.setUsuario(model.getUsuario());
-//		return pregunta;
-//	}
-//}
+import es.mdef.gestionusuarios.entidades.Usuario;
+
+@Component
+public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImpl, EntityModel<FamiliaImpl>>{
+	
+	
+	@Override
+	public EntityModel<FamiliaImpl> toModel(FamiliaImpl entity) {
+		EntityModel<FamiliaImpl> model = EntityModel.of(entity);
+		model.add(
+				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
+		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
+		     	linkTo(methodOn(FamiliaController.class).usuariosDeFamilia(entity.getId())).withRel("usuarios")
+				);
+		return model;
+	}
+	
+	public Familia toEntity(FamiliaModel model) {
+		FamiliaImpl familia = new FamiliaImpl();
+		familia.setEnunciado(model.getEnunciado());
+		return familia;
+	}
+}

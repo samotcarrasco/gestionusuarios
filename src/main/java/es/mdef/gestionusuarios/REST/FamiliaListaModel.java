@@ -3,33 +3,31 @@ package es.mdef.gestionusuarios.REST;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import es.mdef.gestionusuarios.entidades.Usuario;
 
-
-@Relation(collectionRelation = "preguntas")
+@Relation(collectionRelation = "familias")
 public class FamiliaListaModel extends RepresentationModel<FamiliaListaModel> {
-//	private String enunciado;
-//	private Usuario usuario;
-//	
-//	public String getEnunciado() {
-//		return enunciado;
-//	}
-//	
-//	public void setEnunciado(String enunciado) {
-//		this.enunciado = enunciado;
-//	}
-//	
-////	public Usuario getUsuario() {
-////		return usuario;
-////	}
-////	public void setUsuario(Usuario usuario) {
-////		this.usuario = usuario;
-////	}
-////	
-////	
-//	@Override
-//	public String toString() {
-//		return "PreguntaModel [enunciado=" + enunciado + "]";
-//	}
+	private String enunciado;
+	private Long tamanio;
+	
+	public String getEnunciado() {
+		return enunciado;
+	}
+	
+	public void setEnunciado(String enunciado) {
+		this.enunciado = enunciado;
+	}
+	
+	public Long getTamanio() {
+		return tamanio;
+	}
+	
+	public void setTamanio(Long tamanio) {
+		this.tamanio = tamanio;
+	}
+	
+	@Override
+	public String toString() {
+		return "FamiliaListaModel [enun=" + enunciado + ", tamabio=" + tamanio + "]";
+	}
 
 }

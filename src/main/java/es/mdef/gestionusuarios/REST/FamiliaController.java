@@ -14,66 +14,91 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
+import es.mdef.gestionusuarios.entidades.Administrador;
+import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
-import es.mdef.gestionusuarios.entidades.Usuario;
+import es.mdef.gestionusuarios.entidades.Familia;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.repositorios.FamiliaRepositorio;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
+
 
 @RestController
 @RequestMapping("/preguntas")
 public class FamiliaController {
-//	private final PreguntaRepositorio repositorio;
-//	private final PreguntaAssembler prAssembler;
-//	private final UsuarioAssembler usuarioAssembler;
-//	private final PreguntaListaAssembler listaAssembler;
-//	private final Logger log;
-//	
-//	FamiliaController(PreguntaRepositorio repositorio, PreguntaAssembler prAssembler, 
-//			PreguntaListaAssembler listaAssembler, UsuarioAssembler usuarioAssembler) {
-//		this.repositorio = repositorio;
-//		this.prAssembler = prAssembler;
-//		this.usuarioAssembler = usuarioAssembler;
-//		this.listaAssembler = listaAssembler;
-//		log = GestionUsuariosApplication.log;
-//	}
-//	
-//	@GetMapping("{id}")
-//	public EntityModel<Pregunta> one(@PathVariable Long id) {
-//		Pregunta pregunta = repositorio.findById(id)
-//				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-//		log.info("Recuperado " + pregunta);
-//		return prAssembler.toModel(pregunta);
-//	}
-//	
-//	@GetMapping
-//	public CollectionModel<PreguntaListaModel> all() {
-//		return listaAssembler.toCollection(repositorio.findAll());
-//	}
-//	
-//	@GetMapping("{id}/usuario")
-//	public EntityModel<Usuario> usuario(@PathVariable Long id) {
-//		Pregunta pregunta = repositorio.findById(id)
-//				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-//		return usuarioAssembler.toModel(pregunta.getUsuario());
-//	}
-//	
-////	@GetMapping("porEstado")
-////	public CollectionModel<PreguntaListaModel> preguntasPorEstado(@RequestParam PreguntaEstado estado) {
-////		return listaAssembler.toCollection(
-////				repositorio.findPreguntaByEstado(estado)
-////				);
-////	}
-//	
-//	@PostMapping
-//	public EntityModel<Pregunta> add(@RequestBody PreguntaModel model) {
-//		Pregunta pregunta = repositorio.save(prAssembler.toEntity(model));
-//		log.info("Añadido " + pregunta);
-//		return prAssembler.toModel(pregunta);
-//	}
-//
-//	
-//	@DeleteMapping("{id}")
-//	public void delete(@PathVariable Long id) {
-//		log.info("Borrado pregunta " + id);
-//		repositorio.deleteById(id);
-//	}
+	private final FamiliaRepositorio repositorio;
+	private final FamiliaAssembler assembler;
+	private final FamiliaListaAssembler listaAssembler;
+	private final FamiliaListaAssembler famListaAssembler;
+	private final Logger log;
+		
+	FamiliaController(FamiliaRepositorio repositorio, FamiliaAssembler assembler, 
+			FamiliaListaAssembler listaAssembler, FamiliaListaAssembler famListaAssembler) {
+			this.repositorio = repositorio;
+			this.assembler = assembler;
+			this.listaAssembler = listaAssembler;
+			this.famListaAssembler = famListaAssembler;
+			log = GestionUsuariosApplication.log;
+		}
+		
+		@GetMapping("{id}")
+		public EntityModel<FamiliaImpl> one(@PathVariable Long id) {
+			FamiliaImpl familia = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+			log.info("Recuperado " + familia);
+			return assembler.toModel(familia);
+		}
+		
+		@GetMapping("{id}/preguntas")
+		public CollectionModel<PreguntaListaModel> preguntasDeFamilia(@PathVariable Long id) {
+			FamiliaImpl familia = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+		    //return famListaAssembler.toCollection(familia.getPreguntas());
+			return null;
+		}
+		
+		@GetMapping("{id}/usuarios")
+		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
+			FamiliaImpl familia = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+//		    return famListaAssembler.toCollection(familia.getUsuarios());
+		    return null;
+		}
+		
+		@PutMapping("{id}")
+		public EntityModel<FamiliaImpl> edit(@PathVariable Long id, @RequestBody FamiliaModel model) {
+			
+			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
+				fam.setEnunciado(model.getEnunciado());
+				fam.setTamanio(model.getTamanio());
+			return repositorio.save(fam);
+			})
+			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));
+			log.info("Actualizado " + familia);
+			return assembler.toModel(familia);
+		}
+		
+		@DeleteMapping("{id}")
+		public void delete(@PathVariable Long id) {
+		    log.info("Borrado Familia " + id);
+//		    if (repositorio.existsById(id)) {
+		        repositorio.deleteById(id);
+//		    } else {
+//		        throw new RegisterNotFoundException(id, "familia");
+//		    }
+		}
+		
+		
+		@GetMapping
+		public CollectionModel<FamiliaListaModel> all() {
+			return listaAssembler.toCollection(repositorio.findAll());
+		}
+		
+		@PostMapping
+		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
+			//FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+//			log.info("Añadido " + familia);
+//			return assembler.toModel(familia);
+			return null;
+		}
 }

@@ -22,9 +22,9 @@ public class Pregunta {
 	@JoinColumn(name="usuarioId")
 	private Usuario usuario;	
 
-//	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="familiaID")
-//	private Familia familia;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="familiaID")
+	private FamiliaImpl familia;
 
 
 	
@@ -48,12 +48,13 @@ public class Pregunta {
 		this.usuario = usuario;
 	}
 	
-//	public Familia getFamilia() {
-//		return familia;
-//	}
-//	public void setFamilia(Familia familia) {
-//		this.familia = familia;
-//	}
+	public FamiliaImpl getFamilia() {
+		return familia;
+	}
+
+	public void setFamilia(FamiliaImpl familia) {
+		this.familia = familia;
+	}
 	
 	
 	@Override
