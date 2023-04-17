@@ -96,9 +96,10 @@ public class FamiliaController {
 		
 		@PostMapping
 		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
-			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
-			log.info("Añadido " + familia);
-			return assembler.toModel(familia);
+		//	FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+//			log.info("Añadido " + familia);
+//			return assembler.toModel(familia);
 			return null;
+
 		}
 }
