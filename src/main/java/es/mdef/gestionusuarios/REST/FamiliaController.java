@@ -24,7 +24,7 @@ import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
 
 
 @RestController
-@RequestMapping("/preguntas")
+@RequestMapping("/familias")
 public class FamiliaController {
 	private final FamiliaRepositorio repositorio;
 	private final FamiliaAssembler assembler;
@@ -57,13 +57,13 @@ public class FamiliaController {
 			return null;
 		}
 		
-		@GetMapping("{id}/usuarios")
-		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
-			FamiliaImpl familia = repositorio.findById(id)
-					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+//		@GetMapping("{id}/usuarios")
+//		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
+//			FamiliaImpl familia = repositorio.findById(id)
+//					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 //		    return famListaAssembler.toCollection(familia.getUsuarios());
-		    return null;
-		}
+//		    return null;
+//		}
 		
 		@PutMapping("{id}")
 		public EntityModel<FamiliaImpl> edit(@PathVariable Long id, @RequestBody FamiliaModel model) {
@@ -96,9 +96,9 @@ public class FamiliaController {
 		
 		@PostMapping
 		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
-			//FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
-//			log.info("Añadido " + familia);
-//			return assembler.toModel(familia);
+			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+			log.info("Añadido " + familia);
+			return assembler.toModel(familia);
 			return null;
 		}
 }

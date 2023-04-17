@@ -85,20 +85,20 @@ public class Usuario {
 		return preguntas;
 	}
 
-//	public void setPreguntas(List<Pregunta> preguntas) {
-//		this.preguntas = preguntas;
-//	}
-	
-	public List <FamiliaImpl> getFamilias() {
-		 List<FamiliaImpl> familias = new ArrayList<>();
-
-	    for (Pregunta pregunta : this.preguntas) {
-	        FamiliaImpl familia = pregunta.getFamilia();
-	        	familias.add(familia);
-	    }
-	    
-	    return familias;
+	public void setPreguntas(List<Pregunta> preguntas) {
+		this.preguntas = preguntas;
 	}
+	
+//	public List <FamiliaImpl> getFamilias() {
+//		 List<FamiliaImpl> familias = new ArrayList<>();
+//
+//	    for (Pregunta pregunta : this.preguntas) {
+//	        FamiliaImpl familia = pregunta.getFamilia();
+//	        	familias.add(familia);
+//	    }
+//	    
+//	    return familias;
+//	}
 	
 	@Override
 	public String toString() {

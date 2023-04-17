@@ -21,8 +21,8 @@ public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImp
 		EntityModel<FamiliaImpl> model = EntityModel.of(entity);
 		model.add(
 				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
-		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
-		     	linkTo(methodOn(FamiliaController.class).usuariosDeFamilia(entity.getId())).withRel("usuarios")
+		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas")
+//		     	linkTo(methodOn(FamiliaController.class).usuariosDeFamilia(entity.getId())).withRel("usuarios")
 				);
 		return model;
 	}

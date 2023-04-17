@@ -26,7 +26,7 @@ public class FamiliaImpl implements Familia {
 	
 	@OneToMany(mappedBy = "familia")
 	List<Pregunta> preguntas;	
-	List<Usuario> usuarios;
+	//List<Usuario> usuarios;
 
     public String getEnunciado() {
         return enunciado;
@@ -50,14 +50,15 @@ public class FamiliaImpl implements Familia {
 	public void setPreguntas(List<Pregunta> preguntas) {
 		this.preguntas = preguntas;
 	}
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}	
-    
+	
+//	public List<Usuario> getUsuarios() {
+//		return usuarios;
+//	}
+//
+//	public void setUsuarios(List<Usuario> usuarios) {
+//		this.usuarios = usuarios;
+//	}	
+//    
 	public Long getTamanio() {
 		return tamanio;
 	}
