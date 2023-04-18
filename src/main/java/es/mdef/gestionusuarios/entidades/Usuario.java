@@ -69,6 +69,7 @@ public class Usuario {
 	}
 
 	public void setPassword(String password) {
+		System.out.println("PWD DESDE METODO SETTER: " + password);
 		this.password = password;
 	}
 	
@@ -102,7 +103,7 @@ public class Usuario {
 	
 	@Override
 	public String toString() {
-		return "USUARIO (DESDE clase usuario) [Nombre=" + nombre + ", NombreUSER=" + nombreUsuario + "   ID " + id + "]";
+		return "USUARIO (DESDE clase usuario) [Nombre=" + nombre + ", NombreUSER=" + nombreUsuario + "   ID " + id + "]" + password;
 	}
 
 	

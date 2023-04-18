@@ -28,15 +28,15 @@ import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
 public class FamiliaController {
 	private final FamiliaRepositorio repositorio;
 	private final FamiliaAssembler assembler;
-	private final FamiliaListaAssembler listaAssembler;
 	private final FamiliaListaAssembler famListaAssembler;
+	private final PreguntaListaAssembler prListaAssembler;
 	private final Logger log;
 		
 	FamiliaController(FamiliaRepositorio repositorio, FamiliaAssembler assembler, 
-			FamiliaListaAssembler listaAssembler, FamiliaListaAssembler famListaAssembler) {
+			PreguntaListaAssembler prListaAssembler, FamiliaListaAssembler famListaAssembler) {
 			this.repositorio = repositorio;
 			this.assembler = assembler;
-			this.listaAssembler = listaAssembler;
+			this.prListaAssembler = prListaAssembler;
 			this.famListaAssembler = famListaAssembler;
 			log = GestionUsuariosApplication.log;
 		}
@@ -53,8 +53,8 @@ public class FamiliaController {
 		public CollectionModel<PreguntaListaModel> preguntasDeFamilia(@PathVariable Long id) {
 			FamiliaImpl familia = repositorio.findById(id)
 					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-		    //return famListaAssembler.toCollection(familia.getPreguntas());
-			return null;
+		    return prListaAssembler.toCollection(familia.getPreguntas());
+			
 		}
 		
 //		@GetMapping("{id}/usuarios")
@@ -91,15 +91,14 @@ public class FamiliaController {
 		
 		@GetMapping
 		public CollectionModel<FamiliaListaModel> all() {
-			return listaAssembler.toCollection(repositorio.findAll());
+			return famListaAssembler.toCollection(repositorio.findAll());
 		}
 		
 		@PostMapping
 		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
-		//	FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+//			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
 //			log.info("Añadido " + familia);
 //			return assembler.toModel(familia);
 			return null;
-
 		}
 }

@@ -58,7 +58,7 @@ public class FamiliaImpl implements Familia {
 //	public void setUsuarios(List<Usuario> usuarios) {
 //		this.usuarios = usuarios;
 //	}	
-//    
+    
 	public Long getTamanio() {
 		return tamanio;
 	}

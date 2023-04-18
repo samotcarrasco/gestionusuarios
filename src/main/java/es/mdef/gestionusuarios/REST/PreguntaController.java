@@ -17,52 +17,42 @@ import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
+import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/preguntas")
 public class PreguntaController {
 	private final PreguntaRepositorio repositorio;
+	private final UsuarioRepositorio uRepositorio;
 	private final PreguntaAssembler prAssembler;
 	private final UsuarioAssembler usuarioAssembler;
 	private final PreguntaListaAssembler listaAssembler;
 	private final Logger log;
 	
 	PreguntaController(PreguntaRepositorio repositorio, PreguntaAssembler prAssembler, 
-			PreguntaListaAssembler listaAssembler, UsuarioAssembler usuarioAssembler) {
+			PreguntaListaAssembler listaAssembler, UsuarioAssembler usuarioAssembler, UsuarioRepositorio uRepositorio) {
 		this.repositorio = repositorio;
 		this.prAssembler = prAssembler;
 		this.usuarioAssembler = usuarioAssembler;
 		this.listaAssembler = listaAssembler;
+		this.uRepositorio = uRepositorio;
 		log = GestionUsuariosApplication.log;
 	}
-	
+
 	@GetMapping("{id}")
 	public EntityModel<Pregunta> one(@PathVariable Long id) {
 		Pregunta pregunta = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-		log.info("Recuperado " + pregunta);
+				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		return prAssembler.toModel(pregunta);
 	}
+	
 	
 	@GetMapping
 	public CollectionModel<PreguntaListaModel> all() {
 		return listaAssembler.toCollection(repositorio.findAll());
 	}
 	
-	@GetMapping("{id}/usuario")
-	public EntityModel<Usuario> usuario(@PathVariable Long id) {
-		Pregunta pregunta = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-		return usuarioAssembler.toModel(pregunta.getUsuario());
-	}
-	
-//	@GetMapping("porEstado")
-//	public CollectionModel<PreguntaListaModel> preguntasPorEstado(@RequestParam PreguntaEstado estado) {
-//		return listaAssembler.toCollection(
-//				repositorio.findPreguntaByEstado(estado)
-//				);
-//	}
-	
+
 	@PostMapping
 	public EntityModel<Pregunta> add(@RequestBody PreguntaModel model) {
 		Pregunta pregunta = repositorio.save(prAssembler.toEntity(model));

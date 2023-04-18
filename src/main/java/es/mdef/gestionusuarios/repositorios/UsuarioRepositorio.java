@@ -9,4 +9,5 @@ import es.mdef.gestionusuarios.entidades.Usuario;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {	    
         //List<Usuario> findUsuarioByNombre(String nombre);
+	 //   void editPassword(Long id, String password);
 }

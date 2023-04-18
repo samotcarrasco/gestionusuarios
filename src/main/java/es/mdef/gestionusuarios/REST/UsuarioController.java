@@ -2,6 +2,10 @@ package es.mdef.gestionusuarios.REST;
 
 import java.util.List;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
+import org.h2.util.json.JSONObject;
+import org.h2.util.json.JSONValue;
 //import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
@@ -16,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
+import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.entidades.Usuario.Rol;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
@@ -56,6 +63,13 @@ public class UsuarioController {
 	    return prListaAssembler.toCollection(usuario.getPreguntas());
 	}
 	
+	@PostMapping
+	public EntityModel<Usuario> add(@RequestBody UsuarioModel model) {
+		Usuario Usuario = repositorio.save(assembler.toEntity(model));
+		log.info("Añadido " + Usuario);
+		return assembler.toModel(Usuario);
+	}
+	
 	@PutMapping("{id}")
 	public EntityModel<Usuario> edit(@PathVariable Long id, @RequestBody UsuarioModel model) {
 		
@@ -81,6 +95,30 @@ public class UsuarioController {
 		return assembler.toModel(usuario);
 	}
 	
+	@PutMapping("{id}/password")
+	public void editPassword(@PathVariable Long id, @RequestBody  String password) {
+		log.info("Nueva password " + password);
+		// Analiza el objeto JSON
+		// Analiza el objeto JSON
+//		JSONParser parser = new JSONParser(password);
+//		JSONObject jsonObject = (JSONObject) parser.parse();
+//		JSONValue passwordPeticion = jsonObject.getFirst(password);
+//		
+//		log.info("passwordPeticion " + passwordPeticion);
+//		
+//		
+		
+		Usuario usuario = repositorio.findById(id).map(usu -> {
+			usu.setPassword(password);
+			return repositorio.save(usu);
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
+		log.info("Actualizada constraseña " + usuario);
+		//return assembler.toModel(usuario);
+		//return EntityModel.ok().build();
+
+	}
+	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
 	    log.info("Borrado Usuario " + id);
@@ -104,11 +142,6 @@ public class UsuarioController {
 //				);
 //	}
 //	
-	@PostMapping
-	public EntityModel<Usuario> add(@RequestBody UsuarioModel model) {
-		Usuario Usuario = repositorio.save(assembler.toEntity(model));
-		log.info("Añadido " + Usuario);
-		return assembler.toModel(Usuario);
-	}
+
 	
 }
