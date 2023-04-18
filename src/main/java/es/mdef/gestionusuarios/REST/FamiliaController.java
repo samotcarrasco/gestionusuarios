@@ -65,6 +65,19 @@ public class FamiliaController {
 //		    return null;
 //		}
 		
+		@GetMapping
+		public CollectionModel<FamiliaListaModel> all() {
+			return famListaAssembler.toCollection(repositorio.findAll());
+		}
+
+		@PostMapping
+		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
+			//FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+			//log.info("Añadido " + familia);
+			//return assembler.toModel(familia);
+			return null;
+		}
+		
 		@PutMapping("{id}")
 		public EntityModel<FamiliaImpl> edit(@PathVariable Long id, @RequestBody FamiliaModel model) {
 			
@@ -89,16 +102,6 @@ public class FamiliaController {
 		}
 		
 		
-		@GetMapping
-		public CollectionModel<FamiliaListaModel> all() {
-			return famListaAssembler.toCollection(repositorio.findAll());
-		}
-		
-		@PostMapping
-		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
-//			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
-//			log.info("Añadido " + familia);
-//			return assembler.toModel(familia);
-			return null;
-		}
+
+
 }

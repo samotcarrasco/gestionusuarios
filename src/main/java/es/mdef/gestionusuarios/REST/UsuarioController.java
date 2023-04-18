@@ -2,10 +2,7 @@ package es.mdef.gestionusuarios.REST;
 
 import java.util.List;
 
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
-import org.h2.util.json.JSONObject;
-import org.h2.util.json.JSONValue;
+
 //import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
@@ -96,17 +93,9 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}/password")
-	public void editPassword(@PathVariable Long id, @RequestBody  String password) {
+	public void editPassword(@PathVariable Long id, String password) {
 		log.info("Nueva password " + password);
-		// Analiza el objeto JSON
-		// Analiza el objeto JSON
-//		JSONParser parser = new JSONParser(password);
-//		JSONObject jsonObject = (JSONObject) parser.parse();
-//		JSONValue passwordPeticion = jsonObject.getFirst(password);
-//		
-//		log.info("passwordPeticion " + passwordPeticion);
-//		
-//		
+
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
 			usu.setPassword(password);
