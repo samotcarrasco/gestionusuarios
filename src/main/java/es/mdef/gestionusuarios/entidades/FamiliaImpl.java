@@ -1,7 +1,11 @@
 package es.mdef.gestionusuarios.entidades;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -16,6 +20,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="FAMILIAS")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "usuarios"})
+
 public class FamiliaImpl implements Familia {
 	
 	@Id
@@ -26,7 +32,8 @@ public class FamiliaImpl implements Familia {
 	
 	@OneToMany(mappedBy = "familia")
 	List<Pregunta> preguntas;	
-	//List<Usuario> usuarios;
+	
+//	List<Usuario> usuarios;
 
     public String getEnunciado() {
         return enunciado;
@@ -51,14 +58,15 @@ public class FamiliaImpl implements Familia {
 		this.preguntas = preguntas;
 	}
 	
-//	public List<Usuario> getUsuarios() {
-//		return usuarios;
-//	}
-//
-//	public void setUsuarios(List<Usuario> usuarios) {
-//		this.usuarios = usuarios;
-//	}	
-    
+	public List<Usuario> getUsuarios() {
+	    List<Usuario> usuarios = new ArrayList<>();
+	    for (Pregunta pregunta : preguntas) {
+	        usuarios.add(pregunta.getUsuario());
+	    }
+	    return new ArrayList<>(usuarios);
+	}
+	
+	
 	public Long getTamanio() {
 		return tamanio;
 	}

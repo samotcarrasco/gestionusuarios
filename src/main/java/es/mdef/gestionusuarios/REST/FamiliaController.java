@@ -17,6 +17,7 @@ import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
+import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.repositorios.FamiliaRepositorio;
@@ -30,14 +31,17 @@ public class FamiliaController {
 	private final FamiliaAssembler assembler;
 	private final FamiliaListaAssembler famListaAssembler;
 	private final PreguntaListaAssembler prListaAssembler;
+	private final UsuarioListaAssembler userListaAssembler;
 	private final Logger log;
 		
 	FamiliaController(FamiliaRepositorio repositorio, FamiliaAssembler assembler, 
-			PreguntaListaAssembler prListaAssembler, FamiliaListaAssembler famListaAssembler) {
+			PreguntaListaAssembler prListaAssembler, FamiliaListaAssembler famListaAssembler,
+			UsuarioListaAssembler userListaAssembler) {
 			this.repositorio = repositorio;
 			this.assembler = assembler;
 			this.prListaAssembler = prListaAssembler;
 			this.famListaAssembler = famListaAssembler;
+			this.userListaAssembler = userListaAssembler;
 			log = GestionUsuariosApplication.log;
 		}
 		
@@ -54,16 +58,17 @@ public class FamiliaController {
 			FamiliaImpl familia = repositorio.findById(id)
 					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 		    return prListaAssembler.toCollection(familia.getPreguntas());
-			
 		}
 		
-//		@GetMapping("{id}/usuarios")
-//		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
-//			FamiliaImpl familia = repositorio.findById(id)
-//					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-//		    return famListaAssembler.toCollection(familia.getUsuarios());
+
+		
+		@GetMapping("{id}/usuarios")
+		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
+			FamiliaImpl familia = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+		    return userListaAssembler.toCollection(familia.getUsuarios());
 //		    return null;
-//		}
+		}
 		
 		@GetMapping
 		public CollectionModel<FamiliaListaModel> all() {
@@ -72,10 +77,10 @@ public class FamiliaController {
 
 		@PostMapping
 		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
-			//FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
-			//log.info("Añadido " + familia);
-			//return assembler.toModel(familia);
-			return null;
+			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+			log.info("Añadido " + familia);
+			return assembler.toModel(familia);
+//			return null;
 		}
 		
 		@PutMapping("{id}")

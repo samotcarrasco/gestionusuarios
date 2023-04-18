@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
@@ -34,14 +35,17 @@ public class UsuarioController {
 	private final UsuarioAssembler assembler;
 	private final UsuarioListaAssembler listaAssembler;
 	private final PreguntaListaAssembler prListaAssembler;
+	private final FamiliaListaAssembler famListaAssembler;
 	private final Logger log;
 	
 	UsuarioController(UsuarioRepositorio repositorio, UsuarioAssembler assembler, 
-			UsuarioListaAssembler listaAssembler, PreguntaListaAssembler prListaAssembler) {
+			UsuarioListaAssembler listaAssembler, PreguntaListaAssembler prListaAssembler,
+			FamiliaListaAssembler famListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
 		this.prListaAssembler = prListaAssembler;
+		this.famListaAssembler = famListaAssembler;
 		log = GestionUsuariosApplication.log;
 	}
 	
@@ -59,6 +63,15 @@ public class UsuarioController {
 				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 	    return prListaAssembler.toCollection(usuario.getPreguntas());
 	}
+	
+	@GetMapping("{id}/familias")
+	public CollectionModel<FamiliaListaModel> familiasDeUsuario(@PathVariable Long id) {
+		Usuario usuario = repositorio.findById(id)
+				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+	    return famListaAssembler.toCollection(usuario.getFamilias());
+	}
+	
+	
 	
 	@PostMapping
 	public EntityModel<Usuario> add(@RequestBody UsuarioModel model) {
@@ -98,7 +111,14 @@ public class UsuarioController {
 
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
-			usu.setPassword(password);
+			//1 .- preguntar al profesor sobre este replace
+			//2.- familiaid (tabla familia)
+			//3.- llamadas extrañas postman
+			//4.- devolver el ID en los get(modelo familia)
+			//5.- forma de obtener familiasDeUsuario y usuariosDeFamilia
+			//6.- falta tamaño en diagrama (FamiliaPostModel)
+			//7.- ht tenido que añadir ignoreproperties en FamiliaImpl para que ignore los usuarios 
+			usu.setPassword(password.replace("PASSWORD_VALUE,", ""));
 			return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));

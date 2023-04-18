@@ -19,7 +19,8 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 		EntityModel<Usuario> model = EntityModel.of(entity);
 		model.add(
 				linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel(),
-		     	linkTo(methodOn(UsuarioController.class).preguntasDeUsuario(entity.getId())).withRel("preguntas")
+		     	linkTo(methodOn(UsuarioController.class).preguntasDeUsuario(entity.getId())).withRel("preguntas"),
+		     	linkTo(methodOn(UsuarioController.class).familiasDeUsuario(entity.getId())).withRel("familias")
 				);
 		return model;
 	}
