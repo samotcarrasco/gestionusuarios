@@ -25,6 +25,11 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, E
 		return model;
 	}
 	
+	public EntityModel<Usuario> toModelPost(Usuario entity) {
+		EntityModel<Usuario> model = EntityModel.of(entity);
+		return model;
+	}
+	
 	public Usuario toEntity(UsuarioModel model) {
 		Usuario usuario;
 		

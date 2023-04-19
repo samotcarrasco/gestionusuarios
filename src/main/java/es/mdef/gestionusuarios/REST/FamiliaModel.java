@@ -19,7 +19,7 @@ public class FamiliaModel extends RepresentationModel<FamiliaModel>{
 //	public void setId(Long id) {
 //		this.id = id;
 //	}
-	
+
 	public String getEnunciado() {
 		return enunciado;
 	}
@@ -30,7 +30,7 @@ public class FamiliaModel extends RepresentationModel<FamiliaModel>{
 	public Long getTamanio() {
 		return tamanio;
 	}
-	public void setTamabio(Long tamanio) {
+	public void setTamanio(Long tamanio) {
 		this.tamanio = tamanio;
 	}
 	

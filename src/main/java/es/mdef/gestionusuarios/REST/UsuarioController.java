@@ -75,9 +75,10 @@ public class UsuarioController {
 	
 	@PostMapping
 	public EntityModel<Usuario> add(@RequestBody UsuarioModel model) {
-		Usuario Usuario = repositorio.save(assembler.toEntity(model));
-		log.info("Añadido " + Usuario);
-		return assembler.toModel(Usuario);
+		Usuario usuario = repositorio.save(assembler.toEntity(model));
+		log.info("Añadido " + usuario);
+		return assembler.toModel(usuario);
+		//return assembler.toModelPost(usuario);
 	}
 	
 	@PutMapping("{id}")
@@ -88,7 +89,7 @@ public class UsuarioController {
 			usu.setNombreUsuario(model.getNombreUsuario());
 			usu.setPassword(model.getPassword());
 			usu.setRol(model.getRol());
-
+			
 			if (usu.getRol() == Rol.Administrator) {
 				Administrador admin = (Administrador) usu;
 				admin.setTelefono(model.getTelefono());
@@ -97,6 +98,7 @@ public class UsuarioController {
 				noAdmin.setDpto(model.getDpto());
 				noAdmin.setTipo(model.getTipo());
 			}
+			
 
 			//usu.setRol(model.getRol());
 			return repositorio.save(usu);
@@ -112,6 +114,7 @@ public class UsuarioController {
 
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
+			//0.- post usuarios y familias
 			//1 .- preguntar al profesor sobre este replace
 			//2.- familiaid (tabla familia)
 			//3.- llamadas extrañas postman
@@ -119,6 +122,8 @@ public class UsuarioController {
 			//5.- forma de obtener familiasDeUsuario y usuariosDeFamilia
 			//6.- falta tamaño en diagrama (FamiliaPostModel)
 			//7.- ht tenido que añadir ignoreproperties en FamiliaImpl para que ignore los usuarios 
+			//8.- usuario put no cambia el rol
+			//9.- error en metodo put Rol
 			usu.setPassword(password.replace("PASSWORD_VALUE,", ""));
 			return repositorio.save(usu);
 		})

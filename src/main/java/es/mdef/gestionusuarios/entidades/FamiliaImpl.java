@@ -59,11 +59,12 @@ public class FamiliaImpl implements Familia {
 	}
 	
 	public List<Usuario> getUsuarios() {
-	    List<Usuario> usuarios = new ArrayList<>();
-	    for (Pregunta pregunta : preguntas) {
-	        usuarios.add(pregunta.getUsuario());
-	    }
-	    return new ArrayList<>(usuarios);
+//	    List<Usuario> usuarios = new ArrayList<>();
+//	    for (Pregunta pregunta : preguntas) {
+//	        usuarios.add(pregunta.getUsuario());
+//	    }
+//	    return new ArrayList<>(usuarios);
+	    return null;
 	}
 	
 	

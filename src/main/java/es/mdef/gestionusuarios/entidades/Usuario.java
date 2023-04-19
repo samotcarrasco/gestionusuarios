@@ -93,11 +93,11 @@ public class Usuario {
 	
 	//preguntar al profesor
 	public List <FamiliaImpl> getFamilias() {
-		 List<FamiliaImpl> familias = new ArrayList<>();
-	    for (Pregunta pregunta : this.preguntas) {
-	        FamiliaImpl familia = pregunta.getFamilia();
-	        	familias.add(familia);
-	    }	    
+//		 List<FamiliaImpl> familias = new ArrayList<>();
+//	    for (Pregunta pregunta : this.preguntas) {
+//	        FamiliaImpl familia = pregunta.getFamilia();
+//	        	familias.add(familia);
+//	    }	    
 	    return null;
 	    //return new ArrayList<>(familias);
 	}
