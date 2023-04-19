@@ -12,7 +12,7 @@ public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 	private String enunciado;
 	public Usuario usuario;
 	public FamiliaImpl familia;
-	
+
 	public String getEnunciado() {
 		return enunciado;
 	}

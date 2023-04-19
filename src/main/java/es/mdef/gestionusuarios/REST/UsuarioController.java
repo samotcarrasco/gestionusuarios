@@ -87,6 +87,7 @@ public class UsuarioController {
 			usu.setNombre(model.getNombre());
 			usu.setNombreUsuario(model.getNombreUsuario());
 			usu.setPassword(model.getPassword());
+			usu.setRol(model.getRol());
 
 			if (usu.getRol() == Rol.Administrator) {
 				Administrador admin = (Administrador) usu;
