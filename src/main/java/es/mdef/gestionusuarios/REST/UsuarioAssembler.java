@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import es.mdef.gestionusuarios.entidades.Administrador;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
@@ -18,9 +20,9 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 	@Override
 	public UsuarioModel toModel(Usuario entity) {
 		UsuarioModel model = new UsuarioModel();
-		
+		model.setPassword(null);
 		model.setNombre(entity.getNombre());
-		model.setNombreUsuario(entity.getNombreUsuario());
+		model.setUserName(entity.getUserName());
 		model.setRol(entity.getRol());
 		model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
 
@@ -68,10 +70,10 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 		default:
 			usuario = new Usuario();
 		}
-		
+
+		usuario.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
 		usuario.setNombre(model.getNombre());
-		usuario.setNombreUsuario(model.getNombreUsuario());
-		usuario.setPassword(model.getPassword());
+		usuario.setUserName(model.getUserName());
 		return usuario;
 	}
 	
@@ -97,7 +99,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 		}
 		
 		usuario.setNombre(model.getNombre());
-		usuario.setNombreUsuario(model.getNombreUsuario());
+		usuario.setUserName(model.getUserName());
 		return usuario;
 	}
 }

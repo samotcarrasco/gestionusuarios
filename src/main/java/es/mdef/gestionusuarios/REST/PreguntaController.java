@@ -1,5 +1,7 @@
 package es.mdef.gestionusuarios.REST;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -23,19 +25,15 @@ import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
 @RequestMapping("/preguntas")
 public class PreguntaController {
 	private final PreguntaRepositorio repositorio;
-	private final UsuarioRepositorio uRepositorio;
 	private final PreguntaAssembler prAssembler;
-	private final UsuarioAssembler usuarioAssembler;
 	private final PreguntaListaAssembler listaAssembler;
 	private final Logger log;
 	
 	PreguntaController(PreguntaRepositorio repositorio, PreguntaAssembler prAssembler, 
-			PreguntaListaAssembler listaAssembler, UsuarioAssembler usuarioAssembler, UsuarioRepositorio uRepositorio) {
+			PreguntaListaAssembler listaAssembler) {
 		this.repositorio = repositorio;
 		this.prAssembler = prAssembler;
-		this.usuarioAssembler = usuarioAssembler;
 		this.listaAssembler = listaAssembler;
-		this.uRepositorio = uRepositorio;
 		log = GestionUsuariosApplication.log;
 	}
 
@@ -61,17 +59,18 @@ public class PreguntaController {
 	}
 
 	
-//	@PutMapping("{id}")
-//	public EntityModel<Pregunta> edit(@PathVariable Long id, @RequestBody PreguntaModel model) {
-//		Pregunta pregunta = repositorio.findById(id).map(preg -> {
-//			preg.setEnunciado(model.getEnunciado());
-//			preg.setUsuario(model.getUsuario());
-//			return repositorio.save(preg);
-//		})
-//		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-//		log.info("Actualizado " + pregunta);
-//		return prAssembler.toModel(pregunta);
-//	}
+	@PutMapping("{id}")
+	public PreguntaModel edit(@PathVariable Long id, @RequestBody PreguntaPostModel model) {
+		Pregunta pregunta = repositorio.findById(id).map(preg -> {
+			preg.setEnunciado(model.getEnunciado());
+		    preg.setUsuario(model.getUsuario());
+			preg.setFamilia(model.getFamilia());
+			return repositorio.save(preg);
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
+		log.info("Actualizado " + pregunta);
+		return prAssembler.toModel(pregunta);
+	}
 	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {

@@ -13,11 +13,26 @@ import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Component
-public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImpl, EntityModel<FamiliaImpl>>{
+public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImpl, FamiliaModel>{
+	
+//	@Override
+//	public EntityModel<FamiliaImpl> toModel(FamiliaImpl entity) {
+//		EntityModel<FamiliaImpl> model = EntityModel.of(entity);
+//		model.add(
+//				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
+//		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
+//		     	linkTo(methodOn(FamiliaController.class).usuariosDeFamilia(entity.getId())).withRel("usuarios")
+//				);
+//		return model;
+//	}
+//	
 	
 	@Override
-	public EntityModel<FamiliaImpl> toModel(FamiliaImpl entity) {
-		EntityModel<FamiliaImpl> model = EntityModel.of(entity);
+	public FamiliaModel  toModel(FamiliaImpl entity) {
+		FamiliaModel model = new FamiliaModel();
+		
+		model.setEnunciado(entity.getEnunciado());
+		model.setTamanio(entity.getTamanio());
 		model.add(
 				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
 		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
@@ -26,10 +41,13 @@ public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImp
 		return model;
 	}
 	
-	public FamiliaImpl toEntity(FamiliaModel model) {
+	
+	
+	public FamiliaImpl toEntity(FamiliaPostModel model) {
 		FamiliaImpl familia = new FamiliaImpl();
 		familia.setEnunciado(model.getEnunciado());
-		familia.setTamanio(model.getTamanio());
+		//preguntar al profesor
+		//familia.setTamanio(FamiliaImpl.getTamanio());
 		return familia;
 	}
 }

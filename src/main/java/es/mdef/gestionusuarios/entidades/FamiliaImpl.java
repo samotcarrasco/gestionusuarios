@@ -45,6 +45,7 @@ public class FamiliaImpl implements Familia {
 	public Long getId() {
 		return id;
 	}
+	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -58,16 +59,7 @@ public class FamiliaImpl implements Familia {
 		this.preguntas = preguntas;
 	}
 	
-	public List<Usuario> getUsuarios() {
-//	    List<Usuario> usuarios = new ArrayList<>();
-//	    for (Pregunta pregunta : preguntas) {
-//	        usuarios.add(pregunta.getUsuario());
-//	    }
-//	    return new ArrayList<>(usuarios);
-	    return null;
-	}
-	
-	
+
 	public Long getTamanio() {
 		return tamanio;
 	}

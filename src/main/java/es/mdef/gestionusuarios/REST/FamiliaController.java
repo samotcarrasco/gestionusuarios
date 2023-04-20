@@ -1,5 +1,8 @@
 package es.mdef.gestionusuarios.REST;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -31,7 +34,7 @@ public class FamiliaController {
 	private final FamiliaAssembler assembler;
 	private final FamiliaListaAssembler famListaAssembler;
 	private final PreguntaListaAssembler prListaAssembler;
-	private final UsuarioListaAssembler userListaAssembler;
+	private final UsuarioListaAssembler usuListaAssembler;
 	private final Logger log;
 		
 	FamiliaController(FamiliaRepositorio repositorio, FamiliaAssembler assembler, 
@@ -41,17 +44,28 @@ public class FamiliaController {
 			this.assembler = assembler;
 			this.prListaAssembler = prListaAssembler;
 			this.famListaAssembler = famListaAssembler;
-			this.userListaAssembler = userListaAssembler;
+			this.usuListaAssembler = userListaAssembler;
 			log = GestionUsuariosApplication.log;
 		}
 		
-		@GetMapping("{id}")
-		public EntityModel<FamiliaImpl> one(@PathVariable Long id) {
-			FamiliaImpl familia = repositorio.findById(id)
-					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-			log.info("Recuperado " + familia);
-			return assembler.toModel(familia);
-		}
+//		@GetMapping("{id}")
+//		public EntityModel<FamiliaImpl> one(@PathVariable Long id) {
+//			FamiliaImpl familia = repositorio.findById(id)
+//					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+//			log.info("Recuperado " + familia);
+//			//return assembler.toModel(familia);
+//			return EntityModel.of(familia);
+//		}
+	
+	@GetMapping("{id}")
+	public FamiliaModel one(@PathVariable Long id) {
+		FamiliaImpl familia = repositorio.findById(id)
+				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+		log.info("Recuperado " + familia);
+		return assembler.toModel(familia);
+	}
+	
+	
 		
 		@GetMapping("{id}/preguntas")
 		public CollectionModel<PreguntaListaModel> preguntasDeFamilia(@PathVariable Long id) {
@@ -61,40 +75,48 @@ public class FamiliaController {
 		}
 		
 
-		
-		@GetMapping("{id}/usuarios")
-		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
-			FamiliaImpl familia = repositorio.findById(id)
-					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-		    return userListaAssembler.toCollection(familia.getUsuarios());
-//		    return null;
-		}
-		
 		@GetMapping
 		public CollectionModel<FamiliaListaModel> all() {
 			return famListaAssembler.toCollection(repositorio.findAll());
 		}
 
 		@PostMapping
-		public EntityModel<FamiliaImpl> add(@RequestBody FamiliaModel model) {
+		public FamiliaModel add(@RequestBody FamiliaPostModel model) {
 			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
 			log.info("Añadido " + familia);
 			return assembler.toModel(familia);
-//			return null;
 		}
 		
 		@PutMapping("{id}")
-		public EntityModel<FamiliaImpl> edit(@PathVariable Long id, @RequestBody FamiliaModel model) {
+		public FamiliaModel edit(@PathVariable Long id, @RequestBody FamiliaPostModel model) {
 			
 			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
 				fam.setEnunciado(model.getEnunciado());
-				fam.setTamanio(model.getTamanio());
+			//	fam.setTamanio(model.getTamanio());
 			return repositorio.save(fam);
 			})
 			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));
 			log.info("Actualizado " + familia);
 			return assembler.toModel(familia);
+				
 		}
+		
+		
+
+		@GetMapping("{id}/usuarios")
+		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
+			   FamiliaImpl familia = repositorio.findById(id)
+			            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+
+			    List<Usuario> usuarios = familia.getPreguntas().stream()
+			            .map(Pregunta::getUsuario)
+			            .distinct()
+			            .collect(Collectors.toList());
+
+			    return usuListaAssembler.toCollection(usuarios);	    
+		}
+		
+
 		
 		@DeleteMapping("{id}")
 		public void delete(@PathVariable Long id) {

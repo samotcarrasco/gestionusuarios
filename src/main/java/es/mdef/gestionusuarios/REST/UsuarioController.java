@@ -1,7 +1,7 @@
 package es.mdef.gestionusuarios.REST;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 //import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.List;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
 import es.mdef.gestionusuarios.entidades.FamiliaImpl;
@@ -27,6 +28,7 @@ import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.entidades.Usuario.Rol;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -56,6 +58,15 @@ public class UsuarioController {
 		log.info("Recuperado " + usuario);
 		return assembler.toModel(usuario);
 	}
+//	
+//	@GetMapping("{id}")
+//	public EntityModel<Usuario>  one(@PathVariable Long id) {
+//		Usuario usuario = repositorio.findById(id)
+//				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+//		log.info("Recuperado " + usuario);
+//		return assembler.toModel(usuario);
+//	}
+//	
 	
 	@GetMapping("{id}/preguntas")
 	public CollectionModel<PreguntaListaModel> preguntasDeUsuario(@PathVariable Long id) {
@@ -64,17 +75,24 @@ public class UsuarioController {
 	    return prListaAssembler.toCollection(usuario.getPreguntas());
 	}
 	
-//	@GetMapping("{id}/familias")
-//	public CollectionModel<FamiliaListaModel> familiasDeUsuario(@PathVariable Long id) {
-//		Usuario usuario = repositorio.findById(id)
-//				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-//	    return famListaAssembler.toCollection(usuario.getFamilias());
-//	}
 	
+	
+	@GetMapping("{id}/familias")
+	public CollectionModel<FamiliaListaModel> familiasDeUsuario(@PathVariable Long id) {
+		   Usuario usuario = repositorio.findById(id)
+		            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+
+		    List<FamiliaImpl> familias = usuario.getPreguntas().stream()
+		            .map(Pregunta::getFamilia)
+		            .distinct()
+		            .collect(Collectors.toList());
+
+		    return famListaAssembler.toCollection(familias);	    
+	}
 	
 	
 	@PostMapping
-	public UsuarioModel add(@RequestBody UsuarioPostModel model) {
+	public UsuarioModel add(@Valid @RequestBody UsuarioPostModel model) {
 		Usuario usuario = repositorio.save(assembler.toEntity(model));
 		log.info("Añadido " + usuario);
 		return assembler.toModel(usuario);
@@ -83,8 +101,7 @@ public class UsuarioController {
 	
 	@PutMapping("{id}")
 	public UsuarioModel edit(@PathVariable Long id, @RequestBody UsuarioPutModel model) {
-		
-		Usuario usuario = repositorio.findById(id).map(usu -> {
+Usuario usuario = repositorio.findById(id).map(usu -> {
 			
 			Usuario us = null;
 			
@@ -92,7 +109,7 @@ public class UsuarioController {
 				Administrador admin = new Administrador();
 				admin.setTelefono(model.getTelefono());
 				us = admin;
-			} else if (usu.getRol() == Rol.noAdministrator) {
+			} else if (model.getRol() == Rol.noAdministrator) {
 				NoAdministrador noAdmin = new NoAdministrador();
 				noAdmin.setDpto(model.getDpto());
 				noAdmin.setTipo(model.getTipo());
@@ -101,9 +118,19 @@ public class UsuarioController {
 			
 			us.setId(id);
 			us.setNombre(model.getNombre());
-			us.setNombreUsuario(model.getNombreUsuario());
+			us.setUserName(model.getUserName());
 			us.setRol(model.getRol());
+//			usu.setAccountNonExpired(model.isAccountNonExpired());
+//			usu.setAccountNonLocked(model.isAccountNonLocked());
+//			usu.setCredentialsNonExpired(empleado.isCredentialsNonExpired());
+//			usu.setEnabled(modelmodel.isEnabled());
+			usu.setAccountNonExpired(true);
+			usu.setAccountNonLocked(true);
+			usu.setCredentialsNonExpired(true);
+			usu.setEnabled(true);
+
 			
+
 			
 			//usu.setRol(model.getRol());
 			return repositorio.save(us);
@@ -111,6 +138,35 @@ public class UsuarioController {
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
 		log.info("Actualizado " + usuario);
 		return assembler.toModel(usuario);
+	//	return null;
+		
+//		Usuario usuario = repositorio.findById(id).map(usu -> {
+//			
+//			Usuario us = null;
+//			
+//			if (model.getRol() == Rol.Administrator) {
+//				Administrador admin = new Administrador();
+//				admin.setTelefono(model.getTelefono());
+//				us = admin;
+//			} else if (model.getRol() == Rol.noAdministrator) {
+//				NoAdministrador noAdmin = new NoAdministrador();
+//				noAdmin.setDpto(model.getDpto());
+//				noAdmin.setTipo(model.getTipo());
+//				us = noAdmin;
+//			}
+//			
+//			us.setNombre(model.getNombre());
+//			us.setNombreUsuario(model.getNombreUsuario());
+//			us.setRol(model.getRol());
+//			
+//			
+//			//usu.setRol(model.getRol());
+//			return repositorio.save(us);
+//		})
+//		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
+//		
+//		return assembler.toModel(usuario);
+
 	}
 	
 	@PutMapping("{id}/password")
@@ -119,23 +175,11 @@ public class UsuarioController {
 
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
-			//0.- post usuarios y familias
-			//1 .- preguntar al profesor sobre este replace
-			//2.- familiaid (tabla familia)
-			//3.- llamadas extrañas postman
-			//4.- devolver el ID en los get(modelo familia)
-			//5.- forma de obtener familiasDeUsuario y usuariosDeFamilia
-			//6.- falta tamaño en diagrama (FamiliaPostModel)
-			//7.- ht tenido que añadir ignoreproperties en FamiliaImpl para que ignore los usuarios 
-			//8.- usuario put no cambia el rol
-			//9.- error en metodo put Rol
-			return repositorio.save(usu);
+			usu.setPassword(new BCryptPasswordEncoder().encode(password));
+	      	return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
 		log.info("Actualizada constraseña " + usuario);
-		//return assembler.toModel(usuario);
-		//return EntityModel.ok().build();
-
 	}
 	
 	@DeleteMapping("{id}")

@@ -21,6 +21,8 @@ public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 		this.enunciado = enunciado;
 	}
 	
+	
+	//ejemplo para mostrar en el Modelo el nombre del usuario
 	public String getNombreDeUsuario() {
 		return nombreDeUsuario;
 	}

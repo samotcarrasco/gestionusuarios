@@ -21,8 +21,7 @@ public class PreguntaAssembler implements RepresentationModelAssembler<Pregunta,
 		
 		model.add(linkTo(methodOn(PreguntaController.class).one(entity.getId())).withSelfRel());
 	    model.add(linkTo(methodOn(UsuarioController.class).one(entity.getUsuario().getId())).withRel("usuario"));
-	    //model.add(linkTo(methodOn(PreguntaController.class).oneUsuario(entity.getUsuario().getId())).withRel("usuario"));
-	    model.add(linkTo(methodOn(FamiliaController.class).one(entity.getUsuario().getId())).withRel("familia"));
+	    model.add(linkTo(methodOn(FamiliaController.class).one(entity.getFamilia().getId())).withRel("familia"));
 	   return model;
 	}
 	
@@ -37,16 +36,6 @@ public class PreguntaAssembler implements RepresentationModelAssembler<Pregunta,
 //	}
 //	
 	
-	public Pregunta toEntity(PreguntaModel model) {
-		Pregunta pregunta = new Pregunta();
-		pregunta.setEnunciado(model.getEnunciado());
-//		pregunta.setUsuario(model.getUsuario());
-//		pregunta.setFamilia(model.getFamilia());
-		return pregunta;
-	}
-	
-
-	
 	public Pregunta toEntity(PreguntaPostModel model) {
 		Pregunta pregunta = new Pregunta();
 		pregunta.setEnunciado(model.getEnunciado());
@@ -54,4 +43,14 @@ public class PreguntaAssembler implements RepresentationModelAssembler<Pregunta,
 		pregunta.setFamilia(model.getFamilia());
 		return pregunta;
 	}
+	
+
+	
+//	public Pregunta toEntity(PreguntaPostModel model) {
+//		Pregunta pregunta = new Pregunta();
+//		pregunta.setEnunciado(model.getEnunciado());
+//		pregunta.setUsuario(model.getUsuario());
+//		pregunta.setFamilia(model.getFamilia());
+//		return pregunta;
+//	}
 }

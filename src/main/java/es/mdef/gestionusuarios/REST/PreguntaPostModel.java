@@ -16,24 +16,13 @@ public class PreguntaPostModel extends RepresentationModel<PreguntaPostModel>{
 	public String getEnunciado() {
 		return enunciado;
 	}
-	public void setEnunciado(String enunciado) {
-		this.enunciado = enunciado;
-	}
-	
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
 	
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
 	public FamiliaImpl getFamilia() {
 		return familia;
-	}
-	
-	public void setFamilia(FamiliaImpl familia) {
-		this.familia = familia;
 	}
 	
 	

@@ -12,7 +12,7 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 
 	private String nombre;
-	private String nombreUsuario;
+	private String userName;
 	private String password;
 	private Rol rol;
 	//atributo del administrador
@@ -30,12 +30,12 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 		this.nombre = nombre;
 	}
 
-	public String getNombreUsuario() {
-		return nombreUsuario;
+	public String getUserName() {
+		return userName;
 	}
 	
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setPassword(String password) {
@@ -80,8 +80,8 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 
 	@Override
 	public String toString() {
-		return "UsuarioModel [Nombre=" + nombre + ", NombreUsuario=" 
-				+ nombreUsuario + "ROL" + rol + "]";
+		return "UsuarioModel [Nombre=" + nombre + ", UserName=" 
+				+ userName + "ROL" + rol + "]";
 	}
 	
 }
