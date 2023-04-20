@@ -64,12 +64,12 @@ public class UsuarioController {
 	    return prListaAssembler.toCollection(usuario.getPreguntas());
 	}
 	
-	@GetMapping("{id}/familias")
-	public CollectionModel<FamiliaListaModel> familiasDeUsuario(@PathVariable Long id) {
-		Usuario usuario = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-	    return famListaAssembler.toCollection(usuario.getFamilias());
-	}
+//	@GetMapping("{id}/familias")
+//	public CollectionModel<FamiliaListaModel> familiasDeUsuario(@PathVariable Long id) {
+//		Usuario usuario = repositorio.findById(id)
+//				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+//	    return famListaAssembler.toCollection(usuario.getFamilias());
+//	}
 	
 	
 	
@@ -114,7 +114,7 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}/password")
-	public void editPassword(@PathVariable Long id, String password) {
+	public void editPassword(@PathVariable Long id, @RequestBody String password) {
 		log.info("Nueva password " + password);
 
 		
@@ -129,7 +129,6 @@ public class UsuarioController {
 			//7.- ht tenido que añadir ignoreproperties en FamiliaImpl para que ignore los usuarios 
 			//8.- usuario put no cambia el rol
 			//9.- error en metodo put Rol
-			usu.setPassword(password.replace("PASSWORD_VALUE,", ""));
 			return repositorio.save(usu);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
