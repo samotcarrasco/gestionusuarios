@@ -26,7 +26,6 @@ public class Pregunta {
 	@JoinColumn(name="familiaID")
 	private FamiliaImpl familia;
 
-
 	
 	public Long getId() {
 		return id;

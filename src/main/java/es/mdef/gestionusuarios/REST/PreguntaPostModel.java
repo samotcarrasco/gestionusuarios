@@ -7,12 +7,11 @@ import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Relation(itemRelation="pregunta")
-public class PreguntaModel extends RepresentationModel<PreguntaModel>{
+public class PreguntaPostModel extends RepresentationModel<PreguntaPostModel>{
 
 	private String enunciado;
 	private Usuario usuario;
 	private FamiliaImpl familia;
-	private String nombreDeUsuario;
 
 	public String getEnunciado() {
 		return enunciado;
@@ -21,12 +20,23 @@ public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 		this.enunciado = enunciado;
 	}
 	
-	public String getNombreDeUsuario() {
-		return nombreDeUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setNombreDeUsuario(String nombreDeUsuario) {
-		this.nombreDeUsuario = nombreDeUsuario;
+	
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
+	
+	public FamiliaImpl getFamilia() {
+		return familia;
+	}
+	
+	public void setFamilia(FamiliaImpl familia) {
+		this.familia = familia;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "PreguntaModel [enunciado=" + enunciado + "]";

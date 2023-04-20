@@ -50,7 +50,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("{id}")
-	public EntityModel<Usuario> one(@PathVariable Long id) {
+	public UsuarioModel one(@PathVariable Long id) {
 		Usuario usuario = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		log.info("Recuperado " + usuario);
@@ -74,7 +74,7 @@ public class UsuarioController {
 	
 	
 	@PostMapping
-	public EntityModel<Usuario> add(@RequestBody UsuarioModel model) {
+	public UsuarioModel add(@RequestBody UsuarioPostModel model) {
 		Usuario usuario = repositorio.save(assembler.toEntity(model));
 		log.info("Añadido " + usuario);
 		return assembler.toModel(usuario);
@@ -82,26 +82,31 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}")
-	public EntityModel<Usuario> edit(@PathVariable Long id, @RequestBody UsuarioModel model) {
+	public UsuarioModel edit(@PathVariable Long id, @RequestBody UsuarioPutModel model) {
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
-			usu.setNombre(model.getNombre());
-			usu.setNombreUsuario(model.getNombreUsuario());
-			usu.setPassword(model.getPassword());
-			usu.setRol(model.getRol());
 			
-			if (usu.getRol() == Rol.Administrator) {
-				Administrador admin = (Administrador) usu;
+			Usuario us = null;
+			
+			if (model.getRol() == Rol.Administrator) {
+				Administrador admin = new Administrador();
 				admin.setTelefono(model.getTelefono());
+				us = admin;
 			} else if (usu.getRol() == Rol.noAdministrator) {
-				NoAdministrador noAdmin = (NoAdministrador) usu;
+				NoAdministrador noAdmin = new NoAdministrador();
 				noAdmin.setDpto(model.getDpto());
 				noAdmin.setTipo(model.getTipo());
+				us = noAdmin;
 			}
 			
-
+			us.setId(id);
+			us.setNombre(model.getNombre());
+			us.setNombreUsuario(model.getNombreUsuario());
+			us.setRol(model.getRol());
+			
+			
 			//usu.setRol(model.getRol());
-			return repositorio.save(usu);
+			return repositorio.save(us);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
 		log.info("Actualizado " + usuario);

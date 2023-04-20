@@ -9,7 +9,7 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 //import es.mdef.gestionpedidos.entidades.Usuario.UsuarioEstado;
 
 @Relation(itemRelation="usuario")
-public class UsuarioModel extends RepresentationModel<UsuarioModel>{
+public class UsuarioPostModel extends RepresentationModel<UsuarioPostModel>{
 
 	private String nombre;
 	private String nombreUsuario;
@@ -26,62 +26,37 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
 	
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
+	
 	public Rol getRol() {
 		return rol;
-	}
-
-	public void setTelefono(String tlf) {
-		this.telefono = tlf;
 	}
 
 	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
-	}
 	public Tipo getTipo() {
 		return tipo;
 	}
 	
-	public void setDpto(Dpto dpto) {
-		this.dpto = dpto;
-	}
 	public Dpto getDpto() {
 		return dpto;
 	}
-	
 
 
 	@Override
 	public String toString() {
-		return "UsuarioModel [Nombre=" + nombre + ", NombreUsuario=" 
-				+ nombreUsuario + "ROL" + rol + "]";
+		return "UsuarioPostModel [Nombre=" + nombre + ", NombreUsuario=" 
+				+ nombreUsuario + "Pass" + password + "]";
 	}
 	
 }

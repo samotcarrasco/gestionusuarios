@@ -40,7 +40,7 @@ public class PreguntaController {
 	}
 
 	@GetMapping("{id}")
-	public EntityModel<Pregunta> one(@PathVariable Long id) {
+	public PreguntaModel one(@PathVariable Long id) {
 		Pregunta pregunta = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 		return prAssembler.toModel(pregunta);
@@ -54,28 +54,35 @@ public class PreguntaController {
 	
 
 	@PostMapping
-	public EntityModel<Pregunta> add(@RequestBody PreguntaModel model) {
+	public PreguntaModel add(@RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.save(prAssembler.toEntity(model));
 		log.info("Añadido " + pregunta);
 		return prAssembler.toModel(pregunta);
 	}
 
 	
-	@PutMapping("{id}")
-	public EntityModel<Pregunta> edit(@PathVariable Long id, @RequestBody PreguntaModel model) {
-		Pregunta pregunta = repositorio.findById(id).map(preg -> {
-			preg.setEnunciado(model.getEnunciado());
-			preg.setUsuario(model.getUsuario());
-			return repositorio.save(preg);
-		})
-		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
-		log.info("Actualizado " + pregunta);
-		return prAssembler.toModel(pregunta);
-	}
+//	@PutMapping("{id}")
+//	public EntityModel<Pregunta> edit(@PathVariable Long id, @RequestBody PreguntaModel model) {
+//		Pregunta pregunta = repositorio.findById(id).map(preg -> {
+//			preg.setEnunciado(model.getEnunciado());
+//			preg.setUsuario(model.getUsuario());
+//			return repositorio.save(preg);
+//		})
+//		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
+//		log.info("Actualizado " + pregunta);
+//		return prAssembler.toModel(pregunta);
+//	}
 	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
 		log.info("Borrado pregunta " + id);
 		repositorio.deleteById(id);
 	}
+	
+//	@GetMapping("porEstado")
+//	public CollectionModel<PreguntaListaModel> pedidosPorEstado(@RequestParam PedidoEstado estado) {
+//		return listaAssembler.toCollectionModel(
+//				repositorio.findPedidoByEstado(estado)
+//				);
+//	}
 }

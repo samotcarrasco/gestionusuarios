@@ -23,6 +23,7 @@ public class FamiliaModel extends RepresentationModel<FamiliaModel>{
 	public String getEnunciado() {
 		return enunciado;
 	}
+	
 	public void setEnunciado(String enunciado) {
 		this.enunciado = enunciado;
 	}
