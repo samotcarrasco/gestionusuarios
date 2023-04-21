@@ -12,7 +12,7 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 public class UsuarioPostModel extends RepresentationModel<UsuarioPostModel>{
 
 	private String nombre;
-	private String userName;
+	private String username;
 	private String password;
 	private Rol rol;
 	//atributo del administrador
@@ -26,8 +26,8 @@ public class UsuarioPostModel extends RepresentationModel<UsuarioPostModel>{
 		return nombre;
 	}
 	
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 	
 	public String getPassword() {
@@ -55,7 +55,7 @@ public class UsuarioPostModel extends RepresentationModel<UsuarioPostModel>{
 	@Override
 	public String toString() {
 		return "UsuarioPostModel [Nombre=" + nombre + ", UserName=" 
-				+ userName + "Pass" + password + "]";
+				+ username + "Pass" + password + "]";
 	}
 	
 }

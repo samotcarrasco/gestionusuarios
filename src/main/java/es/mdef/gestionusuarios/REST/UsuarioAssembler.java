@@ -20,9 +20,10 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 	@Override
 	public UsuarioModel toModel(Usuario entity) {
 		UsuarioModel model = new UsuarioModel();
-		model.setPassword(null);
+		//directamente no ponemos la passwd en el modelo
+		//model.setPassword(null);
 		model.setNombre(entity.getNombre());
-		model.setUserName(entity.getUserName());
+		model.setUsername(entity.getUsername());
 		model.setRol(entity.getRol());
 		model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
 
@@ -73,7 +74,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 
 		usuario.setPassword(new BCryptPasswordEncoder().encode(model.getPassword()));
 		usuario.setNombre(model.getNombre());
-		usuario.setUserName(model.getUserName());
+		usuario.setUsername(model.getUsername());
 		return usuario;
 	}
 	
@@ -99,7 +100,7 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 		}
 		
 		usuario.setNombre(model.getNombre());
-		usuario.setUserName(model.getUserName());
+		usuario.setUsername(model.getUsername());
 		return usuario;
 	}
 }

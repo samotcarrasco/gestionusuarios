@@ -19,7 +19,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeHttpRequests()
 			.requestMatchers("/login").permitAll()
-			.requestMatchers(HttpMethod.DELETE).hasAuthority("Administrador")
+			.requestMatchers(HttpMethod.DELETE).hasAuthority("Administrator")
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(new JwtAuthenticationFilter(authenticationManager))

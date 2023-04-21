@@ -100,7 +100,7 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}")
-	public UsuarioModel edit(@PathVariable Long id, @RequestBody UsuarioPutModel model) {
+	public UsuarioModel edit(@PathVariable Long id, @Valid @RequestBody UsuarioPutModel model) {
 Usuario usuario = repositorio.findById(id).map(usu -> {
 			
 			Usuario us = null;
@@ -118,8 +118,8 @@ Usuario usuario = repositorio.findById(id).map(usu -> {
 			
 			us.setId(id);
 			us.setNombre(model.getNombre());
-			us.setUserName(model.getUserName());
-			us.setRol(model.getRol());
+			us.setUsername(model.getUsername());
+			//us.setRol(model.getRol());
 //			usu.setAccountNonExpired(model.isAccountNonExpired());
 //			usu.setAccountNonLocked(model.isAccountNonLocked());
 //			usu.setCredentialsNonExpired(empleado.isCredentialsNonExpired());

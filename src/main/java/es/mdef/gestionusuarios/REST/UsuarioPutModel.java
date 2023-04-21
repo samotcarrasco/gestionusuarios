@@ -12,7 +12,7 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 public class UsuarioPutModel extends RepresentationModel<UsuarioPutModel>{
 
 	private String nombre;
-	private String userName;
+	private String username;
 	private Rol rol;
 	//atributo del administrador
     private String telefono;
@@ -26,8 +26,8 @@ public class UsuarioPutModel extends RepresentationModel<UsuarioPutModel>{
 	}
 
 	
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 	
 		
@@ -51,7 +51,7 @@ public class UsuarioPutModel extends RepresentationModel<UsuarioPutModel>{
 	@Override
 	public String toString() {
 		return "UsuarioPutModel [Nombre=" + nombre + ", UserName=" 
-				+ userName ;
+				+ username ;
 	}
 	
 }

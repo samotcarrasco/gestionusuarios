@@ -44,7 +44,7 @@ public class Usuario implements UserDetails{
 	@NotBlank(message="el nombre es obligatorio")
 	private String nombre;
 	private String username;
-	private Rol rol;
+	//private Rol rol;
 	@NotBlank(message="la contraseña es obligatorio")
 	private String password;
 	
@@ -77,11 +77,11 @@ public class Usuario implements UserDetails{
 		this.nombre = nombre;
 	}
 
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUserName(String userName) {
+	public void setUsername(String userName) {
 		this.username = userName;
 	}
 
@@ -95,12 +95,12 @@ public class Usuario implements UserDetails{
 	}
 	
 	public Rol getRol() {
-		return rol;
+		return null;
 	}
 
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
+//	public void setRol(Rol rol) {
+//		this.rol = rol;
+//	}
 	
 	
 	public List<Pregunta> getPreguntas() {
@@ -168,12 +168,6 @@ public class Usuario implements UserDetails{
 		return new ArrayList<SimpleGrantedAuthority>(
 				Arrays.asList(new SimpleGrantedAuthority(getRol().toString()))
 				);
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return username;
 	}
 
 		

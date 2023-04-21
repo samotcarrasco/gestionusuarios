@@ -40,7 +40,7 @@ public class PreguntaController {
 	@GetMapping("{id}")
 	public PreguntaModel one(@PathVariable Long id) {
 		Pregunta pregunta = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+				.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
 		return prAssembler.toModel(pregunta);
 	}
 	
