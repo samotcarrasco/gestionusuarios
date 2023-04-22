@@ -7,4 +7,7 @@ public class RegisterNotFoundException extends RuntimeException {
 		super("No se ha encontrado el " + tipo + " " + id);
 	}
 
+	public RegisterNotFoundException(String id, String tipo) {
+		super("No se ha encontrado el " + tipo + " " + id);
+	}
 }

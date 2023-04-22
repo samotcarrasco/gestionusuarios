@@ -40,3 +40,4 @@ out/
 ##properties
 src/main/resources/application.properties 
 *application.properties*
+build.gradle

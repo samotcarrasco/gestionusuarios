@@ -10,15 +10,15 @@ import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 public class FamiliaPostModel extends RepresentationModel<FamiliaPostModel>{
 
 	private String enunciado;
-//	private Long tamanio;
+	private Long tamanio;
 	
 	public String getEnunciado() {
 		return enunciado;
 	}
 	
-//	public Long getTamanio() {
-//		return tamanio;
-//	}
+	public Long getTamanio() {
+		return tamanio;
+	}
 	
 	
 	@Override

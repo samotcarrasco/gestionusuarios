@@ -92,7 +92,7 @@ public class FamiliaController {
 			
 			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
 				fam.setEnunciado(model.getEnunciado());
-			//	fam.setTamanio(model.getTamanio());
+				fam.setTamanio(model.getTamanio());
 			return repositorio.save(fam);
 			})
 			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));
@@ -106,7 +106,7 @@ public class FamiliaController {
 		@GetMapping("{id}/usuarios")
 		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
 			   FamiliaImpl familia = repositorio.findById(id)
-			            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+			            .orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 
 			    List<Usuario> usuarios = familia.getPreguntas().stream()
 			            .map(Pregunta::getUsuario)
@@ -121,11 +121,12 @@ public class FamiliaController {
 		@DeleteMapping("{id}")
 		public void delete(@PathVariable Long id) {
 		    log.info("Borrado Familia " + id);
-//		    if (repositorio.existsById(id)) {
-		        repositorio.deleteById(id);
-//		    } else {
-//		        throw new RegisterNotFoundException(id, "familia");
-//		    }
+		    FamiliaImpl familia = repositorio.findById(id).map(fam -> {
+					repositorio.deleteById(id);	
+					return fam;
+				})
+				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
+					
 		}
 		
 		

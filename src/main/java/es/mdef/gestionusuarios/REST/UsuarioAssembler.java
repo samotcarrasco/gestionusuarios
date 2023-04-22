@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
+
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
@@ -25,17 +27,20 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 		model.setNombre(entity.getNombre());
 		model.setUsername(entity.getUsername());
 		model.setRol(entity.getRol());
-		model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
-
-		if (model.getRol() == Rol.Administrator) {
+		if (entity.getRol() == Rol.Administrator) {
 			model.setTelefono(((Administrador) entity).getTelefono());
-		} else if (model.getRol() == Rol.noAdministrator) {
+		} else if (entity.getRol() == Rol.noAdministrator) {
 			model.setDpto(((NoAdministrador)entity).getDpto());
 			model.setTipo(((NoAdministrador)entity).getTipo());
 		}
-		
+		model.add(linkTo(methodOn(UsuarioController.class).one(entity.getId())).withSelfRel());
+		model.add(linkTo(methodOn(UsuarioController.class).preguntasDeUsuario(entity.getId())).withRel("preguntas"));
+   	    model.add(linkTo(methodOn(UsuarioController.class).familiasDeUsuario(entity.getId())).withRel("familias"));
+
 		return model;
 	}
+	
+			
 //	public EntityModel<Usuario> toModel(Usuario entity) {
 //		EntityModel<Usuario> model = EntityModel.of(entity);
 //		model.add(

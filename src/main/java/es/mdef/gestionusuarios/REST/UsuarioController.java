@@ -1,5 +1,8 @@
 package es.mdef.gestionusuarios.REST;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,15 +62,30 @@ public class UsuarioController {
 		log.info("Recuperado " + usuario);
 		return assembler.toModel(usuario);
 	}
-//	
+
+	
+	//probamos este metodo
+	@GetMapping("/buscarusuario")
+	public UsuarioModel getByUsername(@RequestParam(value = "username") String username) {
+	    Usuario usuario = repositorio.findByUsername(username)
+	            .orElseThrow(() -> new RegisterNotFoundException(username, "usuario"));
+	    log.info("Recuperado " + usuario);
+	    return assembler.toModel(usuario);
+	}
+	
 //	@GetMapping("{id}")
 //	public EntityModel<Usuario>  one(@PathVariable Long id) {
 //		Usuario usuario = repositorio.findById(id)
 //				.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 //		log.info("Recuperado " + usuario);
-//		return assembler.toModel(usuario);
+//		return assembler.toModel2(usuario);
 //	}
-//	
+	
+	@GetMapping
+	public CollectionModel<UsuarioListaModel> all() {
+		return listaAssembler.toCollection(repositorio.findAll());
+	}
+
 	
 	@GetMapping("{id}/preguntas")
 	public CollectionModel<PreguntaListaModel> preguntasDeUsuario(@PathVariable Long id) {
@@ -91,6 +110,7 @@ public class UsuarioController {
 	}
 	
 	
+	
 	@PostMapping
 	public UsuarioModel add(@Valid @RequestBody UsuarioPostModel model) {
 		Usuario usuario = repositorio.save(assembler.toEntity(model));
@@ -99,80 +119,56 @@ public class UsuarioController {
 		//return assembler.toModelPost(usuario);
 	}
 	
+	
 	@PutMapping("{id}")
-	public UsuarioModel edit(@PathVariable Long id, @Valid @RequestBody UsuarioPutModel model) {
-Usuario usuario = repositorio.findById(id).map(usu -> {
-			
-			Usuario us = null;
-			
-			if (model.getRol() == Rol.Administrator) {
+	public UsuarioModel edit(@PathVariable Long id,  @RequestBody UsuarioPutModel model) {
+	    Usuario usuario = repositorio.findById(id).map(usu -> {
+	    	
+	        log.info("PUT MODEL" + model);
+	        if (model.getRol() == Rol.Administrator) {
+	        	repositorio.actualizarUsuarioAdmin(
+	            model.getNombre(),
+	            model.getUsername(),
+	         	model.getTelefono(),
+	            id
+	        	);
+	        }else if (model.getRol() == Rol.noAdministrator) {
+	        	repositorio.actualizarUsuarioNoAdmin(
+	    	            model.getNombre(),
+	    	            model.getUsername(),
+	    	         	model.getDpto().ordinal(),
+	    	         	model.getTipo().ordinal(),
+	    	            id
+	    	        );
+	        }
+	        
+	        if (model.getRol() == Rol.Administrator) {
 				Administrador admin = new Administrador();
 				admin.setTelefono(model.getTelefono());
-				us = admin;
+				usu = admin;
 			} else if (model.getRol() == Rol.noAdministrator) {
 				NoAdministrador noAdmin = new NoAdministrador();
 				noAdmin.setDpto(model.getDpto());
 				noAdmin.setTipo(model.getTipo());
-				us = noAdmin;
+				usu = noAdmin;
 			}
-			
-			us.setId(id);
-			us.setNombre(model.getNombre());
-			us.setUsername(model.getUsername());
-			//us.setRol(model.getRol());
-//			usu.setAccountNonExpired(model.isAccountNonExpired());
-//			usu.setAccountNonLocked(model.isAccountNonLocked());
-//			usu.setCredentialsNonExpired(empleado.isCredentialsNonExpired());
-//			usu.setEnabled(modelmodel.isEnabled());
-			usu.setAccountNonExpired(true);
-			usu.setAccountNonLocked(true);
-			usu.setCredentialsNonExpired(true);
-			usu.setEnabled(true);
-
-			
-
-			
-			//usu.setRol(model.getRol());
-			return repositorio.save(us);
-		})
-		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
-		log.info("Actualizado " + usuario);
-		return assembler.toModel(usuario);
-	//	return null;
-		
-//		Usuario usuario = repositorio.findById(id).map(usu -> {
-//			
-//			Usuario us = null;
-//			
-//			if (model.getRol() == Rol.Administrator) {
-//				Administrador admin = new Administrador();
-//				admin.setTelefono(model.getTelefono());
-//				us = admin;
-//			} else if (model.getRol() == Rol.noAdministrator) {
-//				NoAdministrador noAdmin = new NoAdministrador();
-//				noAdmin.setDpto(model.getDpto());
-//				noAdmin.setTipo(model.getTipo());
-//				us = noAdmin;
-//			}
-//			
-//			us.setNombre(model.getNombre());
-//			us.setNombreUsuario(model.getNombreUsuario());
-//			us.setRol(model.getRol());
-//			
-//			
-//			//usu.setRol(model.getRol());
-//			return repositorio.save(us);
-//		})
-//		.orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
-//		
-//		return assembler.toModel(usuario);
-
+	        
+	        usu.setNombre(model.getNombre());
+	        usu.setUsername(model.getUsername());
+	        usu.setId(id);
+          //return repositorio.save(usu);
+	       return usu;
+	    })
+	    .orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
+	    log.info("Actualizado ---->>>> " + usuario);
+	    
+	    //finalmente, llamamos al metodo toModel para devolver el modelo
+	    return assembler.toModel(usuario);
 	}
 	
 	@PutMapping("{id}/password")
 	public void editPassword(@PathVariable Long id, @RequestBody String password) {
 		log.info("Nueva password " + password);
-
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
 			usu.setPassword(new BCryptPasswordEncoder().encode(password));
@@ -182,29 +178,30 @@ Usuario usuario = repositorio.findById(id).map(usu -> {
 		log.info("Actualizada constraseña " + usuario);
 	}
 	
+	@PatchMapping("{id}/cambiarContrasena")
+	public UsuarioModel edit(@PathVariable Long id, @RequestBody String newPassword) {
+		Usuario usuario = repositorio.findById(id).map(usu -> {
+			usu.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+			return repositorio.save(usu);
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+		log.info("Actualizado " + usuario);
+		return assembler.toModel(usuario);
+	}
+	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
+	
+		Usuario usuario = repositorio.findById(id).map(usu -> {
+			repositorio.deleteById(id);	
+			return usu;
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
+	    
 	    log.info("Borrado Usuario " + id);
-//	    if (repositorio.existsById(id)) {
-	        repositorio.deleteById(id);
-//	    } else {
-//	        throw new RegisterNotFoundException(id, "usuario");
-//	    }
 	}
 	
 	
-	@GetMapping
-	public CollectionModel<UsuarioListaModel> all() {
-		return listaAssembler.toCollection(repositorio.findAll());
-	}
-	
-//	@GetMapping("porEstado")
-//	public CollectionModel<UsuarioListaModel> usuariosPorEstado(@RequestParam UsuarioEstado estado) {
-//		return listaAssembler.toCollection(
-//				repositorio.findUsuarioByEstado(estado)
-//				);
-//	}
-//	
 
 	
 }

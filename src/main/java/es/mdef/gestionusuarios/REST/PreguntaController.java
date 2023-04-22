@@ -74,14 +74,15 @@ public class PreguntaController {
 	
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
+		
+		Pregunta pregunta = repositorio.findById(id).map(preg -> {
+			repositorio.deleteById(id);	
+			return preg;
+		})
+		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
+		log.info("Actualizado " + pregunta);
 		log.info("Borrado pregunta " + id);
-		repositorio.deleteById(id);
-	}
+		
+	}	
 	
-//	@GetMapping("porEstado")
-//	public CollectionModel<PreguntaListaModel> pedidosPorEstado(@RequestParam PedidoEstado estado) {
-//		return listaAssembler.toCollectionModel(
-//				repositorio.findPedidoByEstado(estado)
-//				);
-//	}
 }
