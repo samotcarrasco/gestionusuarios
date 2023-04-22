@@ -13,7 +13,7 @@ public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 	private Usuario usuario;
 	private FamiliaImpl familia;
 	private String nombreDeUsuario;
-
+        
 	public String getEnunciado() {
 		return enunciado;
 	}
@@ -25,6 +25,7 @@ public class PreguntaModel extends RepresentationModel<PreguntaModel>{
 	public String getNombreDeUsuario() {
 		return nombreDeUsuario;
 	}
+	
 	public void setNombreDeUsuario(String nombreDeUsuario) {
 		this.nombreDeUsuario = nombreDeUsuario;
 	}

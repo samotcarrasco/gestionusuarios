@@ -27,6 +27,8 @@ public class UsuarioAssembler implements RepresentationModelAssembler<Usuario, U
 		model.setNombre(entity.getNombre());
 		model.setUsername(entity.getUsername());
 		model.setRol(entity.getRol());
+		model.setNumPreguntas(entity.getPreguntas().size());
+				    
 		if (entity.getRol() == Rol.Administrator) {
 			model.setTelefono(((Administrador) entity).getTelefono());
 		} else if (entity.getRol() == Rol.noAdministrator) {
