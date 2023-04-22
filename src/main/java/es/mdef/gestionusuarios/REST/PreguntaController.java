@@ -1,6 +1,7 @@
 package es.mdef.gestionusuarios.REST;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
@@ -20,6 +21,7 @@ import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/preguntas")
@@ -44,7 +46,32 @@ public class PreguntaController {
 		return prAssembler.toModel(pregunta);
 	}
 	
-	
+	 
+	@GetMapping("/preguntasminfamilia")
+	    public CollectionModel<PreguntaListaModel> getPreguntasPorMinFamilia(
+	            @RequestParam(value = "minFamilia", required = false) Long minFamilia) {
+	        List<Pregunta> preguntas;
+	        if (minFamilia != null) {
+	            preguntas = repositorio.preguntasMinFamilias(minFamilia);
+	        } else {
+	            preguntas = repositorio.findAll();
+	        }
+	        return listaAssembler.toCollection(preguntas);
+	    }
+	  
+	  @GetMapping("/preguntasminfamilia2")
+	    public CollectionModel<PreguntaListaModel> getPreguntasMinFamilia2(
+	            @RequestParam(value = "minFamilia", required = false) Long minFamilia) {  
+	  	     	  List<Pregunta> preguntas = repositorio.findAll();
+		        if (minFamilia != null) {
+	            preguntas = preguntas.stream()
+	                    .filter(p -> p.getFamilia() != null && p.getFamilia().getId() > minFamilia)
+	                    .collect(Collectors.toList());
+	        }
+
+	        return listaAssembler.toCollection(preguntas);
+	  }
+	  
 	@GetMapping
 	public CollectionModel<PreguntaListaModel> all() {
 		return listaAssembler.toCollection(repositorio.findAll());
@@ -52,7 +79,7 @@ public class PreguntaController {
 	
 
 	@PostMapping
-	public PreguntaModel add(@RequestBody PreguntaPostModel model) {
+	public PreguntaModel add(@Valid @RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.save(prAssembler.toEntity(model));
 		log.info("Añadido " + pregunta);
 		return prAssembler.toModel(pregunta);
@@ -60,7 +87,7 @@ public class PreguntaController {
 
 	
 	@PutMapping("{id}")
-	public PreguntaModel edit(@PathVariable Long id, @RequestBody PreguntaPostModel model) {
+	public PreguntaModel edit(@Valid @PathVariable Long id, @RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.findById(id).map(preg -> {
 			preg.setEnunciado(model.getEnunciado());
 		    preg.setUsuario(model.getUsuario());

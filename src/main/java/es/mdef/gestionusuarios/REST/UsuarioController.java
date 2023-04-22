@@ -34,6 +34,7 @@ import es.mdef.gestionusuarios.entidades.Usuario.Rol;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -121,7 +122,7 @@ public class UsuarioController {
 	
 	
 	@PutMapping("{id}")
-	public UsuarioModel edit(@PathVariable Long id,  @RequestBody UsuarioPutModel model) {
+	public UsuarioModel edit(@Valid @PathVariable Long id,  @RequestBody UsuarioPutModel model) {
 	    Usuario usuario = repositorio.findById(id).map(usu -> {
 	    	
 	        log.info("PUT MODEL" + model);
@@ -167,7 +168,7 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("{id}/password")
-	public void editPassword(@PathVariable Long id, @RequestBody String password) {
+	public void editPassword(@Valid @PathVariable Long id, @RequestBody String password) {
 		log.info("Nueva password " + password);
 		
 		Usuario usuario = repositorio.findById(id).map(usu -> {
@@ -178,8 +179,9 @@ public class UsuarioController {
 		log.info("Actualizada constraseña " + usuario);
 	}
 	
+	//emplementamos el método con otro endpoint usando el método PATCH
 	@PatchMapping("{id}/cambiarContrasena")
-	public UsuarioModel edit(@PathVariable Long id, @RequestBody String newPassword) {
+	public UsuarioModel edit(@Valid @PathVariable Long id, @RequestBody String newPassword) {
 		Usuario usuario = repositorio.findById(id).map(usu -> {
 			usu.setPassword(new BCryptPasswordEncoder().encode(newPassword));
 			return repositorio.save(usu);

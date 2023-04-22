@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 
 
@@ -27,7 +28,9 @@ public class FamiliaImpl implements Familia {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message="El enunciado es obligatorio")
 	private String enunciado;
+	@NotBlank(message="El tamanio es obligatorio")
 	private Long tamanio;
 	
 	@OneToMany(mappedBy = "familia")

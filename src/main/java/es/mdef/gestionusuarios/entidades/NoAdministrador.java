@@ -2,6 +2,8 @@ package es.mdef.gestionusuarios.entidades;
 
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.DiscriminatorValue;
 
 @Entity
@@ -17,7 +19,10 @@ public class NoAdministrador extends Usuario {
 	    adminsitracion
 	}
 	
+	@NotNull(message="El tipo es obligatorio")
 	private Tipo tipo;
+	
+	@NotNull(message="El dpto es obligatorio")
 	private Dpto dpto;
 	
 	public Tipo getTipo() {

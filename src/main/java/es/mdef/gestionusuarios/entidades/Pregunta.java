@@ -7,8 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="PREGUNTAS")
@@ -17,13 +18,16 @@ public class Pregunta {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message="El enunciado es obligatorio")
 	private String enunciado;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="usuarioId")
+	@NotNull(message="El usuario (mediante link) es obligatorio")
 	private Usuario usuario;	
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="familiaID")
+	@NotNull(message="La familia (mediante link) es obligatoria")
 	private FamiliaImpl familia;
 
 	

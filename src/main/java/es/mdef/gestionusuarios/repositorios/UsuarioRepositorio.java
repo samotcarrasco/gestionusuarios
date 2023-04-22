@@ -16,14 +16,16 @@ import jakarta.transaction.Transactional;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 	Optional<Usuario> findByUsername(String username);
-	
+		
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE public.usuarios SET "
 					+ "nombre = :nombre, "
 					+ "username = :username, "
 					+ "rol_usuario = 'A', "
-					+ "telefono = :telefono "
+					+ "telefono = :telefono, " 
+					+ "dpto = null, "
+					+ "tipo = null "
 					+ "WHERE id = :id", nativeQuery = true)
 	void actualizarUsuarioAdmin(
 	    @Param("nombre") String nombre,
@@ -38,6 +40,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 					+ "nombre = :nombre, "
 					+ "username = :username, "
 					+ "rol_usuario = 'N', "
+					+ "telefono = null, "
 					+ "dpto = :dpto, "
 					+ "tipo = :tipo "
 					+ "WHERE id = :id", nativeQuery = true)

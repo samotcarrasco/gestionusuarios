@@ -25,6 +25,7 @@ import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.repositorios.FamiliaRepositorio;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -81,14 +82,14 @@ public class FamiliaController {
 		}
 
 		@PostMapping
-		public FamiliaModel add(@RequestBody FamiliaPostModel model) {
+		public FamiliaModel add(@Valid @RequestBody FamiliaPostModel model) {
 			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
 			log.info("Añadido " + familia);
 			return assembler.toModel(familia);
 		}
 		
 		@PutMapping("{id}")
-		public FamiliaModel edit(@PathVariable Long id, @RequestBody FamiliaPostModel model) {
+		public FamiliaModel edit(@Valid @PathVariable Long id, @RequestBody FamiliaPostModel model) {
 			
 			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
 				fam.setEnunciado(model.getEnunciado());

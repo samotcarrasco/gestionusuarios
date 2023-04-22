@@ -43,11 +43,11 @@ public class Usuario implements UserDetails{
 	private Long id;
 	@NotBlank(message="el nombre es obligatorio")
 	private String nombre;
+	@NotBlank(message="El username es obligatorio")
 	private String username;
 	//private Rol rol;
-	@NotBlank(message="la contraseña es obligatorio")
+	@NotBlank(message="la contraseña es obligatoria")
 	private String password;
-	
 	@Column(name="cuenta_activa")
 	private boolean accountNonExpired = true;
 	@Column(name="cuenta_desbloqueada")
