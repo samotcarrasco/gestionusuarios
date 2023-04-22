@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 
@@ -30,7 +31,7 @@ public class FamiliaImpl implements Familia {
 	private Long id;
 	@NotBlank(message="El enunciado es obligatorio")
 	private String enunciado;
-	@NotBlank(message="El tamanio es obligatorio")
+	@NotNull(message="El tamanio es obligatorio")
 	private Long tamanio;
 	
 	@OneToMany(mappedBy = "familia")

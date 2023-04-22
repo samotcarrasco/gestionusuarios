@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.UnexpectedTypeException;
 
 @RestControllerAdvice
 public class ArgumentNotValidExceptionHandler {
@@ -49,4 +52,13 @@ public class ArgumentNotValidExceptionHandler {
 	        error.put("error", ex.getMessage());
 	        return error;
 	    }
+	    
+	    @ResponseStatus(HttpStatus.BAD_REQUEST)
+	    @ExceptionHandler(UnexpectedTypeException.class)
+	    public Map<String, String> handleUnexpectedTypeException(UnexpectedTypeException ex) {
+	        Map<String, String> error = new HashMap<>();
+	        error.put("Error", ex.getMessage());
+	        return error;
+	    }
+	    
 }
