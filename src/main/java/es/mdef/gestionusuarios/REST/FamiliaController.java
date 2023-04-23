@@ -25,6 +25,7 @@ import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.repositorios.FamiliaRepositorio;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
+import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
 
 
@@ -90,10 +91,10 @@ public class FamiliaController {
 		
 		@PutMapping("{id}")
 		public FamiliaModel edit(@Valid @PathVariable Long id, @RequestBody FamiliaPostModel model) {
-			
+			  
 			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
-				fam.setEnunciado(model.getEnunciado());
-				fam.setTamanio(model.getTamanio());
+				if (model.getEnunciado() != null) fam.setEnunciado(model.getEnunciado());
+				if (model.getTamanio() != null)fam.setTamanio(model.getTamanio());
 			return repositorio.save(fam);
 			})
 			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));
@@ -127,10 +128,6 @@ public class FamiliaController {
 					return fam;
 				})
 				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
-					
 		}
-		
-		
-
-
+	
 }

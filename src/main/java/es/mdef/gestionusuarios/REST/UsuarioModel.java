@@ -20,8 +20,17 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel>{
    //atributos del noAdministrador
     private Dpto dpto;
     private Tipo tipo;
+    //hemos incluido en el modelo el numero de preguntas del usuario
+    private int numPreguntas;
 	
-
+    public int getNumPreguntas() {
+		return numPreguntas;
+	}
+    
+    public void setNumPreguntas(int numPreguntas) {
+    	this.numPreguntas = numPreguntas;
+    }
+     
 	public String getNombre() {
 		return nombre;
 	}

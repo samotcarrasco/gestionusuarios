@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
@@ -59,7 +60,7 @@ public class PreguntaController {
 	        return listaAssembler.toCollection(preguntas);
 	    }
 	  
-	  @GetMapping("/preguntasminfamilia2")
+	@GetMapping("/preguntasminfamilia2")
 	    public CollectionModel<PreguntaListaModel> getPreguntasMinFamilia2(
 	            @RequestParam(value = "minFamilia", required = false) Long minFamilia) {  
 	  	     	  List<Pregunta> preguntas = repositorio.findAll();
@@ -89,9 +90,10 @@ public class PreguntaController {
 	@PutMapping("{id}")
 	public PreguntaModel edit(@Valid @PathVariable Long id, @RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.findById(id).map(preg -> {
-			preg.setEnunciado(model.getEnunciado());
-		    preg.setUsuario(model.getUsuario());
-			preg.setFamilia(model.getFamilia());
+			//ojo, aunque los datos sen obligatorios en la bbdd, solamente actualizamos los que estén en el modelo
+			if (model.getEnunciado() != null) preg.setEnunciado(model.getEnunciado());
+			if (model.getUsuario() != null)  preg.setUsuario(model.getUsuario());
+			if (model.getFamilia() != null)  preg.setFamilia(model.getFamilia());
 			return repositorio.save(preg);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));

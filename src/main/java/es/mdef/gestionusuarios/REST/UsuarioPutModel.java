@@ -50,8 +50,8 @@ public class UsuarioPutModel extends RepresentationModel<UsuarioPutModel>{
 
 	@Override
 	public String toString() {
-		return "UsuarioPutModel [Nombre=" + nombre + ", UserName=" 
-				+ username ;
+		return "UsuarioPutModel [Nombre=" + getNombre() + ", UserName=" 
+				+ getUsername() + "ROL" + getRol();
 	}
 	
 }

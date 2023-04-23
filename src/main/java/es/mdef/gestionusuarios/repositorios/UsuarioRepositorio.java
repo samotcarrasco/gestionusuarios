@@ -22,7 +22,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 	@Query(value = "UPDATE public.usuarios SET "
 					+ "nombre = :nombre, "
 					+ "username = :username, "
-					+ "rol_usuario = 'A', "
+					+ "rol_usuario = 'A',"
 					+ "telefono = :telefono, " 
 					+ "dpto = null, "
 					+ "tipo = null "

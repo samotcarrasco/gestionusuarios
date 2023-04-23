@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
 import es.mdef.gestionusuarios.entidades.FamiliaImpl;
@@ -124,45 +125,67 @@ public class UsuarioController {
 	@PutMapping("{id}")
 	public UsuarioModel edit(@Valid @PathVariable Long id,  @RequestBody UsuarioPutModel model) {
 	    Usuario usuario = repositorio.findById(id).map(usu -> {
+	    	log.info("PUT MODEL" + model);
 	    	
-	        log.info("PUT MODEL" + model);
+	    	//el nombre y username nunca van a ser nullos, porque lo controlamos en el post.
+	    	//si no tienen valor en el modeloPut, lo recuperamos del reposituorio.
+	    	String nombre = (model.getNombre() != null) ? model.getNombre() : usu.getNombre();
+	    	String username = (model.getNombre() != null) ? model.getNombre() : usu.getNombre();
+	        
+	        //solamente actualizamos los datos necesarios de cada rol cuando corresponda
 	        if (model.getRol() == Rol.Administrator) {
-	        	repositorio.actualizarUsuarioAdmin(
-	            model.getNombre(),
-	            model.getUsername(),
-	         	model.getTelefono(),
-	            id
-	        	);
+	          	Administrador admin = new Administrador();
+	        	
+	          	if (model.getTelefono() != null) {
+	        		//solo actualizamos la bbdd en caso de que el tlf
+	        		//en caso contrario, se devolverá un error controlado
+	        		repositorio.actualizarUsuarioAdmin(nombre, username, model.getTelefono(), id);
+	        	}
+	        	
+	        	//si es nulo fallará la validación, ,tampoco se habrá hecho el update en bbdd
+	        	admin.setTelefono(model.getTelefono());
+				
+	        	//si en el modelo son nulos (es decir, no se quieren actualilar), devolvemos los del repositorio
+	        	if (model.getNombre() != null){ admin.setNombre(model.getNombre()); } 
+				    else admin.setNombre(usu.getNombre());
+				if (model.getUsername() != null){ admin.setUsername(model.getUsername()); } 
+				    else admin.setUsername(usu.getUsername());
+				
+		        admin.setPassword(usu.getPassword());
+		        usu = admin;
 	        }else if (model.getRol() == Rol.noAdministrator) {
-	        	repositorio.actualizarUsuarioNoAdmin(
-	    	            model.getNombre(),
-	    	            model.getUsername(),
-	    	         	model.getDpto().ordinal(),
-	    	         	model.getTipo().ordinal(),
-	    	            id
-	    	        );
+	        	NoAdministrador noAdmin = new NoAdministrador();
+	        	
+	        	if (model.getDpto() != null && model.getTipo() != null) {
+	        		//solo actualizamos la bbdd en caso de que ambos sean no nulos
+	        		//en caso contrario, se devolverá un error controlado
+	        		repositorio.actualizarUsuarioNoAdmin(nombre, username, model.getDpto().ordinal(), model.getTipo().ordinal(), id);
+	        	}
+	        	//si son nulos fallará la validación,tampoco se habrá hecho el update en bbdd
+	        	noAdmin.setDpto(model.getDpto());
+        		noAdmin.setTipo(model.getTipo());
+        		
+        		
+        		if (model.getNombre() != null) { noAdmin.setNombre(model.getNombre()); }  
+				    else noAdmin.setNombre(usu.getNombre());
+				if (model.getUsername() != null) { noAdmin.setUsername(model.getUsername()); }
+					else noAdmin.setUsername(usu.getUsername());
+				
+		        noAdmin.setPassword(usu.getPassword());
+		        usu = noAdmin;
+	        } else //si no se indica el rol, simplemente actualizamos nombre y username
+	        {
+	        	if (model.getNombre() != null) usu.setNombre(model.getNombre());
+		        if (model.getUsername() != null) usu.setUsername(model.getUsername());
 	        }
 	        
-	        if (model.getRol() == Rol.Administrator) {
-				Administrador admin = new Administrador();
-				admin.setTelefono(model.getTelefono());
-				usu = admin;
-			} else if (model.getRol() == Rol.noAdministrator) {
-				NoAdministrador noAdmin = new NoAdministrador();
-				noAdmin.setDpto(model.getDpto());
-				noAdmin.setTipo(model.getTipo());
-				usu = noAdmin;
-			}
-	        
-	        usu.setNombre(model.getNombre());
-	        usu.setUsername(model.getUsername());
 	        usu.setId(id);
-          //return repositorio.save(usu);
-	       return usu;
-	    })
-	    .orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));
+            return repositorio.save(usu);
+        })
+        .orElseThrow(() -> new RegisterNotFoundException(id, "Usuario"));	    
 	    log.info("Actualizado ---->>>> " + usuario);
 	    
+
 	    //finalmente, llamamos al metodo toModel para devolver el modelo
 	    return assembler.toModel(usuario);
 	}
