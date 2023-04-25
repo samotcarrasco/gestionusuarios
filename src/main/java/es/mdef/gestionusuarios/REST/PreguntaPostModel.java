@@ -3,7 +3,7 @@ package es.mdef.gestionusuarios.REST;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Relation(itemRelation="pregunta")
@@ -11,7 +11,7 @@ public class PreguntaPostModel extends RepresentationModel<PreguntaPostModel>{
 
 	private String enunciado;
 	private Usuario usuario;
-	private FamiliaImpl familia;
+	private Familia familia;
 
 	public String getEnunciado() {
 		return enunciado;
@@ -21,7 +21,7 @@ public class PreguntaPostModel extends RepresentationModel<PreguntaPostModel>{
 		return usuario;
 	}
 	
-	public FamiliaImpl getFamilia() {
+	public Familia getFamilia() {
 		return familia;
 	}
 	

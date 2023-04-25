@@ -27,7 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
-import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
@@ -103,7 +103,7 @@ public class UsuarioController {
 		   Usuario usuario = repositorio.findById(id)
 		            .orElseThrow(() -> new RegisterNotFoundException(id, "usuario"));
 
-		    List<FamiliaImpl> familias = usuario.getPreguntas().stream()
+		    List<Familia> familias = usuario.getPreguntas().stream()
 		            .map(Pregunta::getFamilia)
 		            .distinct()
 		            .collect(Collectors.toList());

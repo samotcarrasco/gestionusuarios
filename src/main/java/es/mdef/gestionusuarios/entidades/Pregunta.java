@@ -28,7 +28,7 @@ public class Pregunta {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="familiaID")
 	@NotNull(message="La familia (mediante link) es obligatoria")
-	private FamiliaImpl familia;
+	private Familia familia;
 
 	
 	public Long getId() {
@@ -51,11 +51,11 @@ public class Pregunta {
 		this.usuario = usuario;
 	}
 	
-	public FamiliaImpl getFamilia() {
+	public Familia getFamilia() {
 		return familia;
 	}
 
-	public void setFamilia(FamiliaImpl familia) {
+	public void setFamilia(Familia familia) {
 		this.familia = familia;
 	}
 	

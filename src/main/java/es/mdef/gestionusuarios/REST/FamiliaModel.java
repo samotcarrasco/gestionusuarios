@@ -9,7 +9,7 @@ import es.mdef.gestionusuarios.entidades.Usuario;
 public class FamiliaModel extends RepresentationModel<FamiliaModel>{
 
 	private String enunciado;
-	private Long tamanio;
+	private int tamanio;
 	
 	public String getEnunciado() {
 		return enunciado;
@@ -19,10 +19,10 @@ public class FamiliaModel extends RepresentationModel<FamiliaModel>{
 		this.enunciado = enunciado;
 	}
 	
-	public Long getTamanio() {
+	public int getTamanio() {
 		return tamanio;
 	}
-	public void setTamanio(Long tamanio) {
+	public void setTamanio(int tamanio) {
 		this.tamanio = tamanio;
 	}
 	

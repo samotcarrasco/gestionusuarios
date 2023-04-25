@@ -8,16 +8,16 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mdef.gestionusuarios.entidades.Familia;
-import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Component
-public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImpl, FamiliaModel>{
+public class FamiliaAssembler implements RepresentationModelAssembler<Familia, FamiliaModel>{
 	
 //	@Override
-//	public EntityModel<FamiliaImpl> toModel(FamiliaImpl entity) {
-//		EntityModel<FamiliaImpl> model = EntityModel.of(entity);
+//	public EntityModel<Familia> toModel(Familia entity) {
+//		EntityModel<Familia> model = EntityModel.of(entity);
 //		model.add(
 //				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
 //		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
@@ -28,11 +28,13 @@ public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImp
 //	
 	
 	@Override
-	public FamiliaModel  toModel(FamiliaImpl entity) {
+	public FamiliaModel  toModel(Familia entity) {
 		FamiliaModel model = new FamiliaModel();
 		
 		model.setEnunciado(entity.getEnunciado());
-		model.setTamanio(entity.getTamanio());
+		int tamanio = entity.getPreguntas() != null ? entity.getPreguntas().size() : 0;
+		model.setTamanio(tamanio);
+		
 		model.add(
 				linkTo(methodOn(FamiliaController.class).one(entity.getId())).withSelfRel(),
 		     	linkTo(methodOn(FamiliaController.class).preguntasDeFamilia(entity.getId())).withRel("preguntas"),
@@ -43,12 +45,11 @@ public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImp
 	
 	
 	
-	public FamiliaImpl toEntity(FamiliaPostModel model) {
-		FamiliaImpl familia = new FamiliaImpl();
+	public Familia toEntity(FamiliaPostModel model) {
+		Familia familia = new Familia();
 		familia.setEnunciado(model.getEnunciado());
-		familia.setTamanio(model.getTamanio());
 		//preguntar al profesor
-		//familia.setTamanio(FamiliaImpl.getTamanio());
+		//familia.setTamanio(Familia.getTamanio());
 		return familia;
 	}
 }

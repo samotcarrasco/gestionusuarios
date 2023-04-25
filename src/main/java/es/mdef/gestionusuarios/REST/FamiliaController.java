@@ -22,7 +22,7 @@ import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 import es.mdef.gestionusuarios.entidades.Familia;
-import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.Familia;
 import es.mdef.gestionusuarios.repositorios.FamiliaRepositorio;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
@@ -51,8 +51,8 @@ public class FamiliaController {
 		}
 		
 //		@GetMapping("{id}")
-//		public EntityModel<FamiliaImpl> one(@PathVariable Long id) {
-//			FamiliaImpl familia = repositorio.findById(id)
+//		public EntityModel<Familia> one(@PathVariable Long id) {
+//			Familia familia = repositorio.findById(id)
 //					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 //			log.info("Recuperado " + familia);
 //			//return assembler.toModel(familia);
@@ -61,7 +61,7 @@ public class FamiliaController {
 	
 	@GetMapping("{id}")
 	public FamiliaModel one(@PathVariable Long id) {
-		FamiliaImpl familia = repositorio.findById(id)
+		Familia familia = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 		log.info("Recuperado " + familia);
 		return assembler.toModel(familia);
@@ -71,7 +71,7 @@ public class FamiliaController {
 		
 		@GetMapping("{id}/preguntas")
 		public CollectionModel<PreguntaListaModel> preguntasDeFamilia(@PathVariable Long id) {
-			FamiliaImpl familia = repositorio.findById(id)
+			Familia familia = repositorio.findById(id)
 					.orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 		    return prListaAssembler.toCollection(familia.getPreguntas());
 		}
@@ -84,7 +84,7 @@ public class FamiliaController {
 
 		@PostMapping
 		public FamiliaModel add(@Valid @RequestBody FamiliaPostModel model) {
-			FamiliaImpl familia = repositorio.save(assembler.toEntity(model));
+			Familia familia = repositorio.save(assembler.toEntity(model));
 			log.info("Añadido " + familia);
 			return assembler.toModel(familia);
 		}
@@ -92,22 +92,20 @@ public class FamiliaController {
 		@PutMapping("{id}")
 		public FamiliaModel edit(@Valid @PathVariable Long id, @RequestBody FamiliaPostModel model) {
 			  
-			FamiliaImpl familia = repositorio.findById(id).map(fam -> {
+			Familia familia = repositorio.findById(id).map(fam -> {
 				if (model.getEnunciado() != null) fam.setEnunciado(model.getEnunciado());
-				if (model.getTamanio() != null)fam.setTamanio(model.getTamanio());
 			return repositorio.save(fam);
 			})
 			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));
 			log.info("Actualizado " + familia);
 			return assembler.toModel(familia);
-				
-		}
+	}
 		
 		
 
 		@GetMapping("{id}/usuarios")
 		public CollectionModel<UsuarioListaModel> usuariosDeFamilia(@PathVariable Long id) {
-			   FamiliaImpl familia = repositorio.findById(id)
+			   Familia familia = repositorio.findById(id)
 			            .orElseThrow(() -> new RegisterNotFoundException(id, "familia"));
 
 			    List<Usuario> usuarios = familia.getPreguntas().stream()
@@ -123,7 +121,7 @@ public class FamiliaController {
 		@DeleteMapping("{id}")
 		public void delete(@PathVariable Long id) {
 		    log.info("Borrado Familia " + id);
-		    FamiliaImpl familia = repositorio.findById(id).map(fam -> {
+		    Familia familia = repositorio.findById(id).map(fam -> {
 					repositorio.deleteById(id);	
 					return fam;
 				})
