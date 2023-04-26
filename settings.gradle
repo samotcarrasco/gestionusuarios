@@ -1,1 +1,4 @@
 rootProject.name = 'gestionusuarios'
+
+//sñadido para libreria externa (github)
+includeFlat 'proyectoLibsamotcarrasco' 

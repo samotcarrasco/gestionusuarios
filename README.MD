@@ -17,4 +17,6 @@ Preguntar a profesor:
  - Llamadas postman __  ojo -->> se obtiene la password
  - put usuarios y resto de entidades
  - importar jar con dependencia de github
+ - atributos cuentas account
+ 
  
