@@ -3,6 +3,7 @@ package es.mdef.gestionusuarios.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -78,6 +79,14 @@ public class ControladorExcepciones {
 	    public Map<String, String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
 	        Map<String, String> error = new HashMap<>();
 	        error.put("Error", ex.getMessage());
+	        return error;
+	    }
+	    
+	    @ResponseStatus(HttpStatus.BAD_REQUEST)
+	    @ExceptionHandler(DataIntegrityViolationException.class)
+	    public Map<String, String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+	        Map<String, String> error = new HashMap<>();
+	        error.put("error", ex.getRootCause().getMessage());
 	        return error;
 	    }
 	    

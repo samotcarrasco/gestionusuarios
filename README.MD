@@ -20,3 +20,9 @@ Preguntar a profesor:
  - atributos cuentas account
  
  
+ 
+ ALTER TABLE public.familias ADD CONSTRAINT uk_enunciado UNIQUE (enunciado);
+ ALTER TABLE public.usuarios ADD CONSTRAINT uk_username UNIQUE (username);
+ 
+ 
+ 
