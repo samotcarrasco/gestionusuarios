@@ -93,7 +93,10 @@ public class FamiliaController {
 		public FamiliaModel edit(@Valid @PathVariable Long id, @RequestBody FamiliaPostModel model) {
 			  
 			Familia familia = repositorio.findById(id).map(fam -> {
-				if (model.getEnunciado() != null) fam.setEnunciado(model.getEnunciado());
+				//al tener solo un atributo, no merece la pena consultar que sea nulo
+				//el comportamenitno es igual que en un put (validar en el modelo)
+				//if (model.getEnunciado() != null) fam.setEnunciado(model.getEnunciado());
+				fam.setEnunciado(model.getEnunciado());
 			return repositorio.save(fam);
 			})
 			.orElseThrow(() -> new RegisterNotFoundException(id, "Familia"));

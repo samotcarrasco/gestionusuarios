@@ -34,22 +34,21 @@ public class Familia extends es.mdef.support.Familia {
 	private Long id;
 	
 	//el enunciado de la familia debe ser único
-	//el username a parte de NotBlank debe ser único. añadimos el decorador
-	@Column(unique=true)
-	@NotBlank(message="El enunciado es obligatorio")
-	private String enunciado;
-	
+	//@Column(unique=true)
+//	@NotBlank(message="El enunciado es obligatorio")
+//	private String enunciado;
+//	
 	@OneToMany(mappedBy = "familia")
 	List<Pregunta> preguntas;	
 	
 
-    public String getEnunciado() {
-        return enunciado;
-    }
-    public void setEnunciado(String enunciado) {
-    	this.enunciado = enunciado;
-    }
-    
+//    public String getEnunciado() {
+//       return enunciado;
+//    }
+//    public void setEnunciado(String enunciado) {
+//    	this.enunciado = enunciado;
+//    }
+//    
 	public Long getId() {
 		return id;
 	}
