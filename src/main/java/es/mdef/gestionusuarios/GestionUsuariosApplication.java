@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 import es.mde.acing.utils.Material;
 
@@ -21,5 +23,14 @@ public class GestionUsuariosApplication {
 		Material mat = new Material(1,"ordenador");
 	    System.out.println(mat.toString());
 	}
+	
+    //integración API externa
+    
+    @Bean
+    public RestTemplate restTemplate() {
+    	return new RestTemplate();
+    	
+    }
+
 
 }

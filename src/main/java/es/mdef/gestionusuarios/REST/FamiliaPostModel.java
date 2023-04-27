@@ -12,7 +12,7 @@ public class FamiliaPostModel extends RepresentationModel<FamiliaPostModel>{
 	//en este caso, al no tener acceso a la entidad, validamos aquí (en el modelo) los campos)
 	//el enunciado de la familia debe ser único
 	//@Column(unique=true)
-	@NotBlank(message="El enunciado es obligatorio")
+	//@NotBlank(message="El enunciado es obligatorio")
 	private String enunciado;
 	
 	public String getEnunciado() {

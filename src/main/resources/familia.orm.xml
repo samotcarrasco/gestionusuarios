@@ -9,7 +9,7 @@
                 <generated-value strategy="IDENTITY"/> 
             </id> 
            <basic name="enunciado">
-			<column name="enunciado" unique="true" />
+			<column name="enunciado" unique="true"  nullable="false" />
 		</basic>
         </attributes>
      </mapped-superclass>

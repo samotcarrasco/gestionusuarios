@@ -88,7 +88,7 @@ public class PreguntaController {
 	}
 	
 	
-//
+
 //	@GetMapping("{id}/usuario")
 //	public UsuarioModel usuariosdePregunta(@PathVariable Long id) {
 //		   Pregunta pregunta = repositorio.findById(id)

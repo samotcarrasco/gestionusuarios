@@ -35,7 +35,7 @@ public class Familia extends es.mdef.support.Familia {
 	
 	//el enunciado de la familia debe ser único
 	//no se permite hacer @Override de atributos(solo de metodos)
-	// lo intentamos controlar en el ORM o en la base de datos
+	// lo controlamos en el ORM, comprobado el funcionamiento
 	
 	
 	@OneToMany(mappedBy = "familia")
