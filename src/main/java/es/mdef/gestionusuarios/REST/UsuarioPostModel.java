@@ -3,6 +3,8 @@ package es.mdef.gestionusuarios.REST;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 import es.mdef.gestionusuarios.entidades.Usuario.Rol;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import es.mdef.gestionusuarios.entidades.NoAdministrador.Dpto;
 import es.mdef.gestionusuarios.entidades.NoAdministrador.Tipo;;
 
@@ -14,6 +16,8 @@ public class UsuarioPostModel extends RepresentationModel<UsuarioPostModel>{
 	private String nombre;
 	private String username;
 	private String password;
+	//controlamos aquí el rol, ya que en la entidad no existe
+	@NotNull(message="El rol es obligatorio")
 	private Rol rol;
 	//atributo del administrador
     private String telefono;

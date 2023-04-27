@@ -8,7 +8,9 @@
             <id name="id"> 
                 <generated-value strategy="IDENTITY"/> 
             </id> 
-            <basic name="enunciado"/>
+           <basic name="enunciado">
+			<column name="enunciado" unique="true" />
+		</basic>
         </attributes>
      </mapped-superclass>
 </entity-mappings>

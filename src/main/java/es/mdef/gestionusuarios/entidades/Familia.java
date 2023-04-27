@@ -34,20 +34,16 @@ public class Familia extends es.mdef.support.Familia {
 	private Long id;
 	
 	//el enunciado de la familia debe ser único
-	//@Column(unique=true)
-//	@NotBlank(message="El enunciado es obligatorio")
-//	private String enunciado;
-//	
+	//no se permite hacer @Override de atributos(solo de metodos)
+	// lo intentamos controlar en el ORM o en la base de datos
+	
+	
 	@OneToMany(mappedBy = "familia")
 	List<Pregunta> preguntas;	
 	
 
-//    public String getEnunciado() {
-//       return enunciado;
-//    }
-//    public void setEnunciado(String enunciado) {
-//    	this.enunciado = enunciado;
-//    }
+//     getEnunciado()  y setEnunciado()
+//     Los heredeamos de la superclase (libreria)  
 //    
 	public Long getId() {
 		return id;

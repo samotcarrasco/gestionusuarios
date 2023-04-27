@@ -3,6 +3,9 @@ package es.mdef.gestionusuarios.REST;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+//import org.springframework.web.client.RestTemplate;
+
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -128,9 +132,8 @@ public class UsuarioController {
 	    	log.info("PUT MODEL" + model);
 	    	
 	    	//el nombre y username nunca van a ser nullos, porque lo controlamos en el post.
-	    	//si no tienen valor en el modeloPut, lo recuperamos del reposituorio.
-	    	String nombre = (model.getNombre() != null) ? model.getNombre() : usu.getNombre();
-	    	String username = (model.getNombre() != null) ? model.getNombre() : usu.getNombre();
+	    	String nombre = model.getNombre();
+	    	String username = model.getNombre();
 	        
 	        //solamente actualizamos los datos necesarios de cada rol cuando corresponda
 	        if (model.getRol() == Rol.Administrator) {
@@ -146,12 +149,10 @@ public class UsuarioController {
 	        	admin.setTelefono(model.getTelefono());
 				
 	        	//si en el modelo son nulos (es decir, no se quieren actualilar), devolvemos los del repositorio
-	        	if (model.getNombre() != null){ admin.setNombre(model.getNombre()); } 
-				    else admin.setNombre(usu.getNombre());
-				if (model.getUsername() != null){ admin.setUsername(model.getUsername()); } 
-				    else admin.setUsername(usu.getUsername());
-				
+	        	admin.setNombre(model.getNombre());
+				admin.setUsername(model.getUsername());
 		        admin.setPassword(usu.getPassword());
+		        
 		        usu = admin;
 	        }else if (model.getRol() == Rol.noAdministrator) {
 	        	NoAdministrador noAdmin = new NoAdministrador();
@@ -166,19 +167,18 @@ public class UsuarioController {
         		noAdmin.setTipo(model.getTipo());
         		
         		
-        		if (model.getNombre() != null) { noAdmin.setNombre(model.getNombre()); }  
-				    else noAdmin.setNombre(usu.getNombre());
-				if (model.getUsername() != null) { noAdmin.setUsername(model.getUsername()); }
-					else noAdmin.setUsername(usu.getUsername());
+             	noAdmin.setNombre(model.getNombre());
+				noAdmin.setUsername(model.getUsername()); 
 				
 		        noAdmin.setPassword(usu.getPassword());
 		        usu = noAdmin;
-	        } else //si no se indica el rol, simplemente actualizamos nombre y username
-	        {
-	        	if (model.getNombre() != null) usu.setNombre(model.getNombre());
-		        if (model.getUsername() != null) usu.setUsername(model.getUsername());
 	        }
-	        
+//	        } else //si no se indica el rol, simplemente actualizamos nombre y username
+//	        {
+//	        	if (model.getNombre() != null) usu.setNombre(model.getNombre());
+//		        if (model.getUsername() != null) usu.setUsername(model.getUsername());
+//	        }
+//	        
 	        usu.setId(id);
             return repositorio.save(usu);
         })
@@ -227,6 +227,17 @@ public class UsuarioController {
 	}
 	
 	
+	
+    //private RestTemplate restTemplate;
+
+	//integración con api externa
+//	 @GetMapping("/api-materiales")
+//	    public String callExternalApi() {
+//	        String apiUrl = "https://truequet-pre-default-rtdb.europe-west1.firebasedatabase.app/materiales";
+//	        String response = restTemplate.getForObject(apiUrl, String.class);
+//	        return response;
+//	    }
+//	
 
 	
 }

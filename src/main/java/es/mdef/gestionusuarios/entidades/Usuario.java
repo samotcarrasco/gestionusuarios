@@ -27,7 +27,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
-
 @Entity
 @Table(name="USUARIOS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
@@ -49,7 +48,7 @@ public class Usuario implements UserDetails{
 	
 	//el username a parte de NotBlank debe ser único. añadimos el decorador
 	@Column(unique=true)
-	@NotBlank(message="El username es obligatorio")
+	@NotBlank(message="El username debe ser único")
 	private String username;
 	
 	//private Rol rol;
@@ -102,6 +101,7 @@ public class Usuario implements UserDetails{
 	}
 	
 	public Rol getRol() {
+		//los roles se obtendrán de las subclases
 		return null;
 	}
 

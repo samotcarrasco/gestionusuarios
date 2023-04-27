@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
+import es.mdef.gestionusuarios.entidades.Administrador;
+import es.mdef.gestionusuarios.entidades.Familia;
+import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
+import es.mdef.gestionusuarios.entidades.Usuario.Rol;
 import es.mdef.gestionusuarios.repositorios.PreguntaRepositorio;
 import es.mdef.gestionusuarios.repositorios.UsuarioRepositorio;
 import jakarta.validation.Valid;
@@ -30,13 +34,15 @@ public class PreguntaController {
 	private final PreguntaRepositorio repositorio;
 	private final PreguntaAssembler prAssembler;
 	private final PreguntaListaAssembler listaAssembler;
+	private final UsuarioAssembler usuAsembler;
 	private final Logger log;
 	
 	PreguntaController(PreguntaRepositorio repositorio, PreguntaAssembler prAssembler, 
-			PreguntaListaAssembler listaAssembler) {
+			PreguntaListaAssembler listaAssembler, UsuarioAssembler usuAsembler) {
 		this.repositorio = repositorio;
 		this.prAssembler = prAssembler;
 		this.listaAssembler = listaAssembler;
+		this.usuAsembler = usuAsembler;
 		log = GestionUsuariosApplication.log;
 	}
 
@@ -60,6 +66,9 @@ public class PreguntaController {
 	        return listaAssembler.toCollection(preguntas);
 	    }
 	  
+	
+
+	
 	@GetMapping("/preguntasminfamilia2")
 	    public CollectionModel<PreguntaListaModel> getPreguntasMinFamilia2(
 	            @RequestParam(value = "minFamilia", required = false) Long minFamilia) {  
@@ -78,6 +87,27 @@ public class PreguntaController {
 		return listaAssembler.toCollection(repositorio.findAll());
 	}
 	
+	
+//
+//	@GetMapping("{id}/usuario")
+//	public UsuarioModel usuariosdePregunta(@PathVariable Long id) {
+//		   Pregunta pregunta = repositorio.findById(id)
+//		            .orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
+//
+//		      Usuario usu = pregunta.getUsuario();
+//		      if (usu.getRol() == Rol.Administrator)
+//		      {
+//		    	  Administrador admin = new Administrador();
+//		    	  usu = admin;
+//		      } else {
+//		    	  NoAdministrador noAdmin = new NoAdministrador();
+//		    	  usu = noAdmin;
+//		      }
+//
+//		    return usuAsembler.toModel(usu);	    
+//	}
+	
+
 
 	@PostMapping
 	public PreguntaModel add(@Valid @RequestBody PreguntaPostModel model) {
@@ -90,10 +120,9 @@ public class PreguntaController {
 	@PutMapping("{id}")
 	public PreguntaModel edit(@Valid @PathVariable Long id, @RequestBody PreguntaPostModel model) {
 		Pregunta pregunta = repositorio.findById(id).map(preg -> {
-			//ojo, aunque los datos sen obligatorios en la bbdd, solamente actualizamos los que estén en el modelo
-			if (model.getEnunciado() != null) preg.setEnunciado(model.getEnunciado());
-			if (model.getUsuario() != null)  preg.setUsuario(model.getUsuario());
-			if (model.getFamilia() != null)  preg.setFamilia(model.getFamilia());
+			preg.setEnunciado(model.getEnunciado());
+			preg.setUsuario(model.getUsuario());
+			preg.setFamilia(model.getFamilia());
 			return repositorio.save(preg);
 		})
 		.orElseThrow(() -> new RegisterNotFoundException(id, "pregunta"));
