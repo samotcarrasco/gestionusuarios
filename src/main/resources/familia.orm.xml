@@ -5,10 +5,7 @@
 	version="1.0"> 
     <mapped-superclass class="es.mdef.support.Familia" access="FIELD">
         <attributes> 
-            <id name="id"> 
-                <generated-value strategy="IDENTITY"/> 
-            </id> 
-           <basic name="enunciado">
+         <basic name="enunciado">
 			<column name="enunciado" unique="true"  nullable="false" />
 		</basic>
         </attributes>
