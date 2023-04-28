@@ -79,6 +79,7 @@ public class UsuarioController {
 	    return assembler.toModel(usuario);
 	}
 	
+	//ejemplo peticion get sin Assembler
 //	@GetMapping("{id}")
 //	public EntityModel<Usuario>  one(@PathVariable Long id) {
 //		Usuario usuario = repositorio.findById(id)

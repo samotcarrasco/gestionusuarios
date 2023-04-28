@@ -24,13 +24,4 @@ public class GestionUsuariosApplication {
 	    System.out.println(mat.toString());
 	}
 	
-    //integración API externa
-    
-    @Bean
-    public RestTemplate restTemplate() {
-    	return new RestTemplate();
-    	
-    }
-
-
 }
