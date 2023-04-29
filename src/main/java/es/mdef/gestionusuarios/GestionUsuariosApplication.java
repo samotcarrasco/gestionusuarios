@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 import es.mde.acing.utils.Material;
@@ -16,7 +15,6 @@ public class GestionUsuariosApplication {
 	public static final Logger log = LoggerFactory.getLogger(GestionUsuariosApplication.class);
 	
 	public static void main(String[] args) {
-		System.err.println(new BCryptPasswordEncoder().encode("password"));
 		SpringApplication.run(GestionUsuariosApplication.class, args);
 		
 		//probamos librería externa alojada en github
