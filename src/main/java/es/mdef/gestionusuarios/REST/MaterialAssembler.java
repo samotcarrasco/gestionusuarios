@@ -79,6 +79,7 @@ public class MaterialAssembler implements RepresentationModelAssembler<Material,
 		
 		}
 		
+		material.setNombre(model.getNombre());
 		material.setDescripcion(model.getDescripcion());
 		material.setCantidad(model.getCantidad());
 		material.setDimensiones(model.getDimensiones());

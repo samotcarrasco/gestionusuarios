@@ -20,7 +20,6 @@ public class DepartamentoPostModel extends RepresentationModel<CategoriaModel>{
 	private String abreviatura;
 	private TipoAcuartelamiento acuartelamiento;
 	private String email;
-	private int credito;
 	private TipoEmpleo responsableEmpleo;
 	private String responsableNombre;
 	private String telefono;
@@ -41,9 +40,6 @@ public class DepartamentoPostModel extends RepresentationModel<CategoriaModel>{
 		return acuartelamiento;
 	}
 
-	public int getCredito() {
-		return credito;
-	}
 
 	public TipoEmpleo getResponsableEmpleo() {
 		return responsableEmpleo;

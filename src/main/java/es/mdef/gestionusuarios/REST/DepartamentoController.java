@@ -90,7 +90,6 @@ public class DepartamentoController {
 				dep.setAbreviatura(model.getAbreviatura());
 				dep.setAcuartelamiento(model.getAcuartelamiento());
 				dep.setEmail(model.getEmail());
-				dep.setCredito(model.getCredito());
 				dep.setResponsableEmpleo(model.getResponsableEmpleo());
 				dep.setResponsableNombre(model.getResponsableNombre());
 				dep.setTelefono(model.getTelefono());

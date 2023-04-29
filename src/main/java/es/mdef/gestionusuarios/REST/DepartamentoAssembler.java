@@ -44,7 +44,8 @@ public class DepartamentoAssembler implements RepresentationModelAssembler<Depar
 		departamento.setAbreviatura(model.getAbreviatura());
 		departamento.setAcuartelamiento(model.getAcuartelamiento());
 		departamento.setNombre(model.getNombre());
-		departamento.setCredito(model.getCredito());
+		//inicialemnte se asignan 1000 milis a los departamentos
+		departamento.setCredito(1000);
 		departamento.setEmail(model.getEmail());
 		departamento.setTelefono(model.getTelefono());
 		departamento.setResponsableNombre(model.getResponsableNombre());
