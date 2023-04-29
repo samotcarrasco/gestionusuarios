@@ -22,7 +22,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@Relation(collectionRelation="categorias")
+@Relation(collectionRelation="materiales")
 public class MaterialListaModel extends RepresentationModel<MaterialListaModel>{
 	
 	
