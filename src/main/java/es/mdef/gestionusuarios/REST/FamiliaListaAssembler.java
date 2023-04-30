@@ -36,7 +36,7 @@ public class FamiliaListaAssembler implements RepresentationModelAssembler<Famil
 				lista.stream().map(this::toModel).collect(Collectors.toList())
 				);
 		collection.add(
-				linkTo(methodOn(UsuarioController.class).all()).withRel("familias")
+				linkTo(methodOn(FamiliaController.class).all()).withRel("familias")
 				);
 		return collection;
 	}
