@@ -26,7 +26,7 @@ public class DepartamentoListaAssembler  implements RepresentationModelAssembler
 		model.setCredito(entity.getCredito());
 		model.setEmail(entity.getEmail());
 		model.add(linkTo(methodOn(DepartamentoController.class).one(entity.getId())).withSelfRel());
-		
+
 		return model;
 	}
 	
@@ -35,10 +35,7 @@ public class DepartamentoListaAssembler  implements RepresentationModelAssembler
 	public CollectionModel<DepartamentoListaModel> toCollection(List<Departamento> lista) {
 		CollectionModel<DepartamentoListaModel> collection = CollectionModel.of(
 				lista.stream().map(this::toModel).collect(Collectors.toList())
-				);
-//		collection.add(
-//				linkTo(methodOn(CategoriaController.class).all()).withRel("categorias")
-//				);		
+				);		
 		return collection;
 	}
 }

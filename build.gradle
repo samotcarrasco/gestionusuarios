@@ -36,6 +36,7 @@ dependencies {
 	
 	//librería externa alojada en github, agena a la práctica
 	implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:588b5aa'
+	
 }
 
 tasks.named('test') {

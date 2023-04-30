@@ -26,6 +26,7 @@ public class MaterialListaAssembler  implements RepresentationModelAssembler<Mat
 		model.setNombre(entity.getNombre());
 		model.setDescripcion(entity.getDescripcion());
 		model.setCantidad(entity.getCantidad());
+		model.setMilis(entity.getMilis());
 		
 		//por compodidad para el front, estos tres los devolvemoscomo String
 		model.setCategoriaN(entity.getCategoria().getCategoria());

@@ -27,7 +27,6 @@ public class DepartamentoListaModel extends RepresentationModel<CategoriaModel>{
 		return abreviatura;
 	}
 
-
 	public int getCredito() {
 		return credito;
 	}
