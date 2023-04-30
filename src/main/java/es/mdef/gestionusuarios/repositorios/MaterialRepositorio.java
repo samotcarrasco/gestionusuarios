@@ -14,4 +14,34 @@ import jakarta.transaction.Transactional;
 
 public interface MaterialRepositorio extends JpaRepository<Material, Long> {
 	
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.materiales SET "
+					+ "inventariable = 'I',"
+					+ "numero_serie = :numero_serie, " 
+					+ "noc = :noc, "
+					+ "bonificacion = null "
+					+ "WHERE id = :id", nativeQuery = true)
+	void actualizarInventariable(
+	    @Param("numero_serie") String numSerie,
+	    @Param("noc") String noc,
+	    @Param("id") Long id
+	);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.materiales SET "
+					+ "inventariable = 'I',"
+					+ "numero_serie = null, " 
+					+ "noc = null, "
+					+ "bonificacion = :bonificacion "
+					+ "WHERE id = :id", nativeQuery = true)
+	void actualizarNoInventariable(
+	    @Param("bonificacion") int bonificacion,
+	    @Param("id") Long id
+	);
+	
+
+	
 }	

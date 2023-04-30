@@ -30,15 +30,13 @@ public class MaterialListaAssembler  implements RepresentationModelAssembler<Mat
 		
 		//por compodidad para el front, estos tres los devolvemoscomo String
 		model.setCategoriaN(entity.getCategoria().getCategoria());
-		model.setDptoOfertaN(entity.getDeptoOferta().getNombre());
+		model.setDptoOfertaN(entity.getDeptoOferta().getAbreviatura());
 		
 		String nombreUnidadOferta = entity.getDptoAdquisicion() != null ? entity.getDptoAdquisicion().getNombre() : "-";
 		model.setDptoAdquisicionN(nombreUnidadOferta);
-	
-		
-//		model.add(
-//				linkTo(methodOn(MaterialControler.class).one(entity.getId())).withSelfRel()
-//				);
+			
+//		model.add(linkTo(methodOn(MaterialControler.class).one(entity.getId())).withSelfRel());
+		model.add(linkTo(methodOn(CategoriaController.class).one(entity.getCategoria().getId())).withRel("categoria"));
 		return model;
 	}
 	

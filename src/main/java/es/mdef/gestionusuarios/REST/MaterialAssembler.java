@@ -87,6 +87,7 @@ public class MaterialAssembler implements RepresentationModelAssembler<Material,
 		material.setFechaOferta(model.getFechaOferta());
 		material.setCantidad(model.getCantidad());
 		material.setMilis(model.getMilis());
+		material.setEstado(null);
 		
 		//las entidades con las que esta relacionada
 		material.setDeptoOferta(model.getDptoOferta());

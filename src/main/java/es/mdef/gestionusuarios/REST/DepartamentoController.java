@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +25,7 @@ import es.mdef.gestionusuarios.repositorios.DepartamentoRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/departamentos")
 public class DepartamentoController {
@@ -66,8 +68,14 @@ public class DepartamentoController {
 		    return matListaAssembler.toCollection(departamento.getMaterialesAdquiridos());
 		}
 		
+		@GetMapping("/siglas/{abreviatura}")
+		public DepartamentoModel departamentoPorSiglas(@PathVariable String abreviatura) {
+		    Departamento departamento = repositorio.findByAbreviatura(abreviatura)
+		    		.orElseThrow(() -> new RegisterNotFoundException(abreviatura, "departamento"));
+		    return assembler.toModel(departamento);
+		}
 		
-
+		
 		@GetMapping
 		public CollectionModel<DepartamentoListaModel> all() {
 			return listaAssembler.toCollection(repositorio.findAll());
