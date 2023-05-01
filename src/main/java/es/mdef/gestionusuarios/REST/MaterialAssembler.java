@@ -34,9 +34,9 @@ public class MaterialAssembler implements RepresentationModelAssembler<Material,
 				
 		//por compodidad para el front, estos tres los devolvemos como String
 		model.setCategoriaN(entity.getCategoria().getCategoria());
-		model.setDptoOfertaN(entity.getDeptoOferta().getNombre());
+		model.setDptoOfertaN(entity.getDeptoOferta().getAbreviatura());
 		
-		String nombreUnidadOferta = entity.getDptoAdquisicion() != null ? entity.getDptoAdquisicion().getNombre() : "-";
+		String nombreUnidadOferta = entity.getDptoAdquisicion() != null ? entity.getDptoAdquisicion().getAbreviatura() : "-";
 		model.setDptoAdquisicionN(nombreUnidadOferta);
 		
 		
