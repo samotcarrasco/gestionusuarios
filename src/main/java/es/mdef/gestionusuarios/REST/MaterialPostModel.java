@@ -30,6 +30,7 @@ public class MaterialPostModel extends RepresentationModel<MaterialPostModel>{
 	private String nombre;
 
 	private Departamento dptoOferta;
+	//dejamos el dpto adquisicion por compatibilidad con put
 	private Departamento dptoAdquisicion;
 	private Categoria categoria;
 	
@@ -37,6 +38,7 @@ public class MaterialPostModel extends RepresentationModel<MaterialPostModel>{
 	private LocalDate fechaAdquisicion;
 	private LocalDate fechaOferta;
 	private String imagen;
+	//dejamos el estado por compatibilidad con put
 	private EstadoMaterial estado;
 	private int milis;
 	private int cantidad;
