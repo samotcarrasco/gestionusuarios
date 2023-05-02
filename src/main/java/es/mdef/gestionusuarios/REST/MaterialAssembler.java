@@ -53,6 +53,10 @@ public class MaterialAssembler implements RepresentationModelAssembler<Material,
 		}
 	
 		model.add(linkTo(methodOn(CategoriaController.class).one(entity.getCategoria().getId())).withRel("categoria"));
+		model.add(linkTo(methodOn(DepartamentoController.class).one(entity.getDeptoOferta().getId())).withRel("dptoOferta"));
+		if (entity.getDptoAdquisicion() != null) {
+			model.add(linkTo(methodOn(DepartamentoController.class).one(entity.getDptoAdquisicion().getId())).withRel("dptoAdquisicion"));
+		}
 		
 		return model;
 	}
@@ -87,7 +91,7 @@ public class MaterialAssembler implements RepresentationModelAssembler<Material,
 		material.setFechaOferta(model.getFechaOferta());
 		material.setCantidad(model.getCantidad());
 		material.setMilis(model.getMilis());
-		material.setEstado(null);
+		material.setEstado(model.getEstado());
 		
 		//las entidades con las que esta relacionada
 		material.setDeptoOferta(model.getDptoOferta());

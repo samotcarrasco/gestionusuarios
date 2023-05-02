@@ -109,19 +109,30 @@ public class DepartamentoController {
 			return assembler.toModel(departamento);
 	}
 		
-		//PATCH para el credito
-		@PatchMapping("{id}")
-		public DepartamentoModel patch(@Valid @PathVariable Long id, @RequestBody DepartamentoPatchModel model) {
-		    Departamento departamento = repositorio.findById(id)
-		        .orElseThrow(() -> new RegisterNotFoundException(id, "departamento"));
+//		//PATCH para el credito
+//		@PatchMapping("{id}/aumentarcredito")
+//		public DepartamentoModel patch(@Valid @PathVariable Long id, @RequestBody DepartamentoPatchModel model) {
+//		    Departamento departamento = repositorio.findById(id)
+//		        .orElseThrow(() -> new RegisterNotFoundException(id, "departamento"));
+//		         departamento.setCredito(model.getCredito() + departamento.getCredito());    
+//		    Departamento dep = repositorio.save(departamento);
+//		    log.info("Actualizado " + dep);
+//		    return assembler.toModel(dep);
+//		}
+//		
+//		
+//		//PATCH para el credito
+//		@PatchMapping("{id}")
+//		public DepartamentoModel patchCredito(@Valid @PathVariable Long id, @RequestBody DepartamentoPatchModel model) {
+//		    Departamento departamento = repositorio.findById(id)
+//		        .orElseThrow(() -> new RegisterNotFoundException(id, "departamento"));
+//		         departamento.setCredito(model.getCredito());    
+//		    Departamento dep = repositorio.save(departamento);
+//		    log.info("Actualizado " + dep);
+//		    return assembler.toModel(dep);
+//		}
+//		
 
-		         departamento.setCredito(model.getCredito());
-		    
-		    Departamento dep = repositorio.save(departamento);
-		    log.info("Actualizado " + dep);
-		    return assembler.toModel(dep);
-		}
-		
 
 		
 		@DeleteMapping("{id}")
