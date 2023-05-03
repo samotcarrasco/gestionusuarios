@@ -31,8 +31,8 @@ public class Categoria {
 	public static enum TipoGrupo {
 		Informatica,
 	    Comunicaciones,
-	    MoviliarioOficina,
-	    MaterialOficina,
+	    Mobiliario_Oficina,
+	    Material_Oficina,
 	    Otros
 	}
 	
