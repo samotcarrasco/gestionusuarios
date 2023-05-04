@@ -27,7 +27,7 @@ import jakarta.validation.constraints.NotNull;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 //@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "usuarios"})
 
-public class Familia extends es.mdef.support.Familia {
+public class FamiliaImpl extends es.mdef.support.Familia {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

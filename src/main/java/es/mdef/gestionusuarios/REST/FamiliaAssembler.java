@@ -7,13 +7,13 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import es.mdef.gestionusuarios.entidades.Familia;
-import es.mdef.gestionusuarios.entidades.Familia;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
 
 @Component
-public class FamiliaAssembler implements RepresentationModelAssembler<Familia, FamiliaModel>{
+public class FamiliaAssembler implements RepresentationModelAssembler<FamiliaImpl, FamiliaModel>{
 	
 //	@Override
 //	public EntityModel<Familia> toModel(Familia entity) {
@@ -28,7 +28,7 @@ public class FamiliaAssembler implements RepresentationModelAssembler<Familia, F
 //	
 	
 	@Override
-	public FamiliaModel  toModel(Familia entity) {
+	public FamiliaModel  toModel(FamiliaImpl entity) {
 		FamiliaModel model = new FamiliaModel();
 		
 		model.setEnunciado(entity.getEnunciado());
@@ -45,8 +45,8 @@ public class FamiliaAssembler implements RepresentationModelAssembler<Familia, F
 	
 	
 	
-	public Familia toEntity(FamiliaPostModel model) {
-		Familia familia = new Familia();
+	public FamiliaImpl toEntity(FamiliaPostModel model) {
+		FamiliaImpl familia = new FamiliaImpl();
 		familia.setEnunciado(model.getEnunciado());
 		//preguntar al profesor
 		//familia.setTamanio(Familia.getTamanio());

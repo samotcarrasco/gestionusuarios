@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Administrador;
-import es.mdef.gestionusuarios.entidades.Familia;
+import es.mdef.gestionusuarios.entidades.FamiliaImpl;
 import es.mdef.gestionusuarios.entidades.NoAdministrador;
 import es.mdef.gestionusuarios.entidades.Pregunta;
 import es.mdef.gestionusuarios.entidades.Usuario;
