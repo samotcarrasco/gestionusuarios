@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
+import org.springframework.data.repository.query.Param;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.gestionusuarios.GestionUsuariosApplication;
 import es.mdef.gestionusuarios.entidades.Categoria;
+import es.mdef.gestionusuarios.entidades.Categoria.TipoGrupo;
 import es.mdef.gestionusuarios.repositorios.CategoriaRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
@@ -58,6 +60,15 @@ public class CategoriaController {
 			Categoria categoria = repositorio.findById(id)
 					.orElseThrow(() -> new RegisterNotFoundException(id, "categoria"));
 		    return matListaAssembler.toCollection(categoria.getMateriales());
+		}
+		
+		@GetMapping("/categoriasdegrupo")
+		public CollectionModel<CategoriaListaModel> categoriasDeGrupo(@RequestParam(value = "grupo") TipoGrupo grupo) {
+//			Categoria categoria = repositorio.findByGrupo(grupo)
+//					.orElseThrow(() -> new RegisterNotFoundException(id, "categoria"));
+//		    return cat.toCollection(categoria.getMateriales());
+			
+			return listaAssembler.toCollection(repositorio.findByGrupo(grupo));
 		}
 		
 

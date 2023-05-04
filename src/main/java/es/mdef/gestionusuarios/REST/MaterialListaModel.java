@@ -38,6 +38,7 @@ public class MaterialListaModel extends RepresentationModel<MaterialListaModel>{
 	private EstadoMaterial estado;
 	private int milis;
 	private int cantidad;
+	private String imagen;
      	 
     	 
 
@@ -107,10 +108,16 @@ public class MaterialListaModel extends RepresentationModel<MaterialListaModel>{
 	}
 
 
+	public String getImagen() {
+		return imagen;
+	}
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+	
+
 	@Override
 	public String toString() {
 		return "MATERIAL [Nombre=" + getNombre() +"]";
-	}
-	
-	
+	}	
 }
