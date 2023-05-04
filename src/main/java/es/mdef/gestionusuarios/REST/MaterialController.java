@@ -27,7 +27,7 @@ import es.mdef.gestionusuarios.repositorios.MaterialRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/materiales")
 public class MaterialController {

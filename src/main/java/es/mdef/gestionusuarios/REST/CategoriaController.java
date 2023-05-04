@@ -24,7 +24,7 @@ import es.mdef.gestionusuarios.repositorios.CategoriaRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {

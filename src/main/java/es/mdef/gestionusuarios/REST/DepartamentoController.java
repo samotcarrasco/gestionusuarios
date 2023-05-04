@@ -25,7 +25,7 @@ import es.mdef.gestionusuarios.repositorios.DepartamentoRepositorio;
 import es.mdef.gestionusuarios.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/departamentos")
 public class DepartamentoController {
