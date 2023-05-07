@@ -32,7 +32,8 @@ public class Material{
 	}
 	public static enum EstadoMaterial {
 		disponible,
-	    adquirido	
+	    adquirido,
+	    entregado
 	}
 	
 	
