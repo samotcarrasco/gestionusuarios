@@ -17,6 +17,9 @@
 				<column unique="true" />
 			</basic>
 			<basic name="password" optional="false" />
+			<basic name="role" optional="false">
+            	<enumerated>STRING</enumerated>
+            </basic>
 			<basic name="accountNonExpired">
 				<column name="cuenta_activa" />
 			</basic>

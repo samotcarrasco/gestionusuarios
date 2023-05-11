@@ -39,7 +39,7 @@ public class Usuario implements UserDetails{
 	
 	private String username;
 	
-	//private Rol rol;
+	private Rol rol;
 	private String password;
 	private boolean accountNonExpired = true;
 	private boolean accountNonLocked = true;
@@ -84,7 +84,8 @@ public class Usuario implements UserDetails{
 	
 	public Rol getRol() {
 		//los roles se obtendrán de las subclases
-		return null;
+		//return null;
+		return rol;
 	}
 
 //	public void setRol(Rol rol) {

@@ -7,12 +7,11 @@
 		<discriminator-value>N</discriminator-value>
 		<attributes>
 			<basic name="tipo">
-				<column name="tipo" nullable="false"/>
+				<enumerated>STRING</enumerated>
 			</basic>
 			<basic name="dpto">
-				<column name="dpto" nullable="false"/>
+				<enumerated>STRING</enumerated>
 			</basic>
 		</attributes>
 	</entity>
-	
 </entity-mappings>
