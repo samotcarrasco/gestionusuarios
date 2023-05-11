@@ -27,44 +27,26 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name="USUARIOS")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) 
-@DiscriminatorColumn(name="rol_usuario", discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("null")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class Usuario implements UserDetails{
 	private static final long serrialVersionUID = 1L;
 	public static enum Rol {
 		Administrator,
 	    noAdministrator	
 	}
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank(message="el nombre es obligatorio")
 	private String nombre;
 	
-	//el username a parte de NotBlank debe ser único. añadimos el decorador
-	@Column(unique=true)
-	@NotBlank(message="El username debe ser único")
 	private String username;
 	
 	//private Rol rol;
-	@NotBlank(message="la contraseña es obligatoria")
 	private String password;
-	@Column(name="cuenta_activa")
 	private boolean accountNonExpired = true;
-	@Column(name="cuenta_desbloqueada")
 	private boolean accountNonLocked = true;
-	@Column(name="credenciales_activas")
 	private boolean credentialsNonExpired = true;
-	@Column(name="habilitada")
 	private boolean enabled = true;
 	
 	
-	@OneToMany(mappedBy = "usuario")
 	List<Pregunta> preguntas;
 	
 	public Long getId() {

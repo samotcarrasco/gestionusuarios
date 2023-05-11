@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+	<entity class="es.mdef.gestionusuarios.entidades.Usuario" access="FIELD">
+		<table name="USUARIOS" />
+		<inheritance strategy="SINGLE_TABLE" />
+		<discriminator-value>null</discriminator-value>
+		<discriminator-column name="rol_usuario" discriminator-type="CHAR" />
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="nombre" optional="false" />
+			<basic name="username" optional="false">
+				<column unique="true" />
+			</basic>
+			<basic name="password" optional="false" />
+			<basic name="accountNonExpired">
+				<column name="cuenta_activa" />
+			</basic>
+			<basic name="accountNonLocked">
+				<column name="cuenta_desbloqueada" />
+			</basic>
+			<basic name="credentialsNonExpired" >
+				<column name="credenciales_activas" />
+			</basic>
+			<basic name="enabled" >
+				<column name="habilitada" />
+			</basic>
+			<one-to-many name="preguntas" mapped-by="usuario" />
+		</attributes>
+	</entity>
+</entity-mappings>
