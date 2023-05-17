@@ -40,8 +40,8 @@ dependencies {
 	
 		
 	//librería externa alojada en github, agena a la práctica
-	implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:588b5aa'
-	//implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:140fe80'
+	//implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:588b5aa'
+	implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:39c4ac4'
 	//implementation 'com.github.samotcarrasco:proyectoLibsamotcarrasco:V2.1'
 }
 
